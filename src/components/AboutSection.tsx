@@ -3,9 +3,10 @@ import Image from "next/image";
 export default function AboutSection() {
   return (
     <section
-      className="relative w-full px-8 lg:px-[120px] pb-16 lg:pb-20"
+      className="relative w-full pb-16 lg:pb-20"
       aria-labelledby="about-heading"
     >
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10">
       {/* Decorative leaf graphic */}
       <div
         className="absolute left-[116px] top-[-40px] w-[183px] h-[149px] rotate-[165deg] scale-y-[-1] pointer-events-none"
@@ -40,6 +41,7 @@ export default function AboutSection() {
           And you can have some time that&apos;s truly all about you, what you
           want for your body and how you want to feel in it.
         </p>
+      </div>
       </div>
     </section>
   );

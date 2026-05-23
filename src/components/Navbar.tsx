@@ -10,7 +10,8 @@ const navLinks = [
 
 export default function Navbar() {
   return (
-    <header className="w-full px-6 lg:px-12 pt-4 pb-8 lg:pb-12">
+    <header className="w-full pt-4 pb-8 lg:pb-12">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10">
       <nav
         className="flex items-center justify-between w-full bg-dark-pickle rounded-full px-10 py-3"
         aria-label="Main navigation"
@@ -48,6 +49,7 @@ export default function Navbar() {
           </Link>
         </div>
       </nav>
+      </div>
     </header>
   );
 }

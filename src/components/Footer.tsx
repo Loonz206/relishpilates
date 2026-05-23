@@ -16,7 +16,8 @@ const moreLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-light-sage w-full flex flex-col gap-8 p-8 lg:p-20">
+    <footer className="bg-light-sage w-full py-12 lg:py-20">
+      <div className="max-w-[1200px] mx-auto flex flex-col gap-8 px-6 lg:px-10">
       {/* Brand headline */}
       <div className="flex flex-col items-center">
         <p className="font-ramillas font-black text-dark-pickle text-[64px] leading-[80px]">
@@ -133,6 +134,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </footer>
   );

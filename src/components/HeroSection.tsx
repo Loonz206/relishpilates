@@ -3,9 +3,10 @@ import Link from "next/link";
 
 export default function HeroSection() {
   return (
-    <section className="w-full flex flex-col lg:flex-row items-start px-8 lg:px-20 pb-16 lg:pb-20 gap-8 relative" aria-labelledby="hero-heading">
-      {/* Copy */}
-      <div className="flex flex-col gap-8 shrink-0 w-full lg:max-w-[800px] z-10">
+    <section className="w-full pb-16 lg:pb-20" aria-labelledby="hero-heading">
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 items-center px-6 lg:px-10 gap-8 relative">
+      {/* Copy — columns 1–6 */}
+      <div className="flex flex-col gap-8 lg:col-span-6 z-10">
         <h1
           id="hero-heading"
           className="font-ramillas font-black text-dark-pickle leading-[1.25] text-[clamp(40px,5.5vw,80px)] text-balance"
@@ -32,8 +33,10 @@ export default function HeroSection() {
         </Link>
       </div>
 
-      {/* Media grid — hidden on small screens */}
-      <div className="relative hidden lg:block shrink-0 w-[528px] h-[471px] lg:ml-[-128px]">
+      {/* Media grid — columns 7–12, hidden on small screens */}
+      <div className="relative hidden lg:flex lg:col-span-6 h-[471px] justify-end">
+        {/* Fixed-width inner wrapper preserves absolute-positioned layout */}
+        <div className="relative w-[528px] h-full">
         {/* Background ellipse */}
         <div
           className="absolute left-[41px] top-[40px] w-[491px] h-[491px] rounded-full bg-light-sage"
@@ -74,6 +77,7 @@ export default function HeroSection() {
             />
           </div>
         </div>
+        </div>
       </div>
 
       {/* Mobile image — shown only on small screens */}
@@ -86,6 +90,7 @@ export default function HeroSection() {
           className="object-cover"
           unoptimized
         />
+      </div>
       </div>
     </section>
   );

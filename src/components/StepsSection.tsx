@@ -34,11 +34,12 @@ export default function StepsSection() {
   return (
     <section
       id="schedule"
-      className="w-full flex flex-col gap-8 items-center px-8 lg:px-20 pb-16 lg:pb-[120px] scroll-mt-24"
+      className="w-full pb-16 lg:pb-[120px] scroll-mt-24"
       aria-labelledby="steps-heading"
     >
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 lg:px-10">
       {/* Heading */}
-      <div className="flex flex-col items-center text-center">
+      <div className="lg:col-span-12 flex flex-col items-center text-center">
         <p className="font-nunito font-light text-dark text-[32px] leading-[48px]">
           How to Relish
         </p>
@@ -51,7 +52,7 @@ export default function StepsSection() {
       </div>
 
       {/* Step cards */}
-      <div className="flex flex-col md:flex-row gap-8 items-start w-full">
+      <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         {steps.map((step) => (
           <div
             key={step.number}
@@ -77,10 +78,11 @@ export default function StepsSection() {
       {/* CTA */}
       <Link
         href="#schedule"
-        className="bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-8 py-2 rounded-full shadow-[6px_6px_0px_#1d1d1f] no-underline motion-safe:hover:translate-x-[1px] motion-safe:hover:translate-y-[1px] motion-safe:hover:shadow-[4px_4px_0px_#1d1d1f] transition-[transform,box-shadow] touch-manipulation"
+        className="lg:col-span-12 justify-self-center bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-8 py-2 rounded-full shadow-[6px_6px_0px_#1d1d1f] no-underline motion-safe:hover:translate-x-[1px] motion-safe:hover:translate-y-[1px] motion-safe:hover:shadow-[4px_4px_0px_#1d1d1f] transition-[transform,box-shadow] touch-manipulation"
       >
         Book a session
       </Link>
+      </div>
     </section>
   );
 }
