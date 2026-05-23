@@ -47,7 +47,7 @@ Before writing or running any tests, read `.github/AGENT_LEARNINGS.md`. Filter t
 
 ### Coverage Gate
 - Coverage must be **≥80%** on all four metrics: branches, functions, lines, statements
-- The threshold is enforced in `jest.config.ts` — `yarn test --ci --coverage` will fail below 80%
+- The threshold is enforced in `jest.config.ts` — `yarn test:coverage` will fail below 80%
 
 ## Workflow
 
@@ -64,11 +64,11 @@ Before writing or running any tests, read `.github/AGENT_LEARNINGS.md`. Filter t
    d. Re-run focused scope, then re-run `yarn test`.
    e. Retry up to **3 attempts total**.
 6. If failures persist after 3 attempts → record remaining failures and stop.
-7. Once all tests pass, run `yarn test --ci --coverage` to verify the coverage gate.
+7. Once all tests pass, run `yarn test:coverage` to verify the coverage gate.
 8. If coverage drops below 80% on any metric:
    a. Identify under-covered files in the report.
    b. Write additional tests targeting uncovered branches and functions.
-   c. Re-run `yarn test --ci --coverage`. Retry up to 3 attempts.
+   c. Re-run `yarn test:coverage`. Retry up to 3 attempts.
 
 ## Constraints
 

@@ -2,7 +2,7 @@
 name: research
 description: Internet-first research agent for library, API, and framework validation before implementation. Fetches current, version-accurate documentation via Context7, then supplements with official web sources when needed. Invoke with /agent research or --agent research.
 argument-hint: Describe what needs to be researched — include library names and versions if known
-tools: [read/readFile, web/fetch, mcp/context7]
+tools: [read/readFile, web/fetch, mcp_io_github_ups_resolve-library-id, mcp_io_github_ups_get-library-docs]
 ---
 
 # Research Agent
@@ -112,3 +112,12 @@ compatible third-party libraries:
 - Keep the summary concise but complete enough for the coding agent to implement without further research.
 - Record `mcp:context7-unavailable` in the Failure Log if Context7 is not reachable, so the
   reflective agent can track the pattern.
+
+## Output Format
+
+After producing the Research Summary, end with:
+
+```
+### Handoff
+→ Code agent
+```
