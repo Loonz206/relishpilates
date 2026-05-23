@@ -19,7 +19,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "yarn dev",
+    // In CI: run against the production build (yarn build must have run first).
+    // Locally: use yarn dev for fast hot-reload iteration.
+    command: process.env.CI ? "yarn start" : "yarn dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

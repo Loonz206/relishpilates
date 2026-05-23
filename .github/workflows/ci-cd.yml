@@ -1,0 +1,193 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Relish Pilates — CI/CD Pipeline
+#
+# Trigger:  push to main  →  quality gates → E2E → production deploy
+#           pull_request  →  quality gates → E2E  (no deploy)
+#
+# Quality gates (all must pass before deploy):
+#   1. TypeScript strict type-check (tsc --noEmit)
+#   2. ESLint (eslint src/)
+#   3. Jest unit tests with ≥80% coverage threshold (enforced by jest.config.ts)
+#   4. Playwright E2E against a production Next.js build (chromium, 2 retries)
+#
+# Vercel deployment strategy:
+#   - vercel.json sets ignoreCommand:"exit 1" to disable Vercel's automatic
+#     GitHub App deployments — this pipeline has exclusive control.
+#   - Uses the Vercel CLI "prebuilt" approach: Next.js is built in GitHub
+#     Actions (vercel build --prod), then the artifact is uploaded to Vercel
+#     (vercel deploy --prebuilt --prod). No rebuild on Vercel's infra.
+#
+# Required GitHub Secrets (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN       — Personal Access Token from vercel.com/account/tokens
+#   VERCEL_ORG_ID      — orgId from .vercel/project.json (after `vercel link`)
+#   VERCEL_PROJECT_ID  — projectId from .vercel/project.json
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-flight runs for the same branch when a newer commit is pushed.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ───────────────────────────────────────────────────────────────────────────
+  # Job 1: Quality Gates
+  # Runs on every push and PR. Fails fast if any gate fails.
+  # ───────────────────────────────────────────────────────────────────────────
+  quality:
+    name: Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # Gate 1 — TypeScript strict type-check
+      - name: Type check (tsc --noEmit)
+        run: npx tsc --noEmit
+
+      # Gate 2 — ESLint
+      - name: Lint (eslint src/)
+        run: yarn lint
+
+      # Gate 3 — Jest unit tests with coverage threshold enforcement
+      # jest.config.ts sets coverageThreshold: { global: { branches/functions/lines/statements: 80 } }
+      # Jest exits non-zero if any metric drops below threshold — the job fails automatically.
+      - name: Unit tests with coverage (≥80% threshold)
+        run: yarn test:coverage
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Job 2: End-to-End Tests
+  # Runs after quality gates pass. Builds the production Next.js bundle and
+  # runs Playwright against it. CI=true → 2 retries, 1 worker (playwright.config.ts).
+  # playwright.config.ts webServer.command is "yarn start" in CI, so next build
+  # must complete first (see "Build production bundle" step).
+  # ───────────────────────────────────────────────────────────────────────────
+  e2e:
+    name: E2E Tests (Playwright / Chromium)
+    runs-on: ubuntu-latest
+    needs: quality
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Install Playwright browsers (Chromium only)
+        run: npx playwright install --with-deps chromium
+
+      # Build the production bundle so `yarn start` (next start) works.
+      - name: Build production bundle
+        run: yarn build
+
+      # Gate 4 — Playwright E2E suite
+      # playwright.config.ts starts the server with "yarn start" when CI=true.
+      - name: Run E2E tests
+        run: yarn test:e2e
+        env:
+          CI: "true"
+
+      # Always upload reports so failures are diagnosable even when the job fails.
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Upload Playwright test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # Job 3: Deploy to Vercel (production)
+  # Runs ONLY on push to main, after both quality and e2e jobs pass.
+  # Uses the Vercel CLI prebuilt strategy:
+  #   vercel pull   → downloads project env + config from Vercel
+  #   vercel build  → compiles Next.js into .vercel/output/
+  #   vercel deploy → uploads .vercel/output/ to Vercel (no remote rebuild)
+  # ───────────────────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy → Vercel Production
+    runs-on: ubuntu-latest
+    needs: [quality, e2e]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # ─── 🔑 Future environment variables ───────────────────────────────────
+      # When you add API keys, analytics tokens, etc., inject them here.
+      # Add the secret in GitHub → Settings → Secrets → Actions, then uncomment:
+      #
+      # - name: Inject environment variables
+      #   run: |
+      #     echo "MY_API_KEY=${{ secrets.MY_API_KEY }}" >> $GITHUB_ENV
+      # ───────────────────────────────────────────────────────────────────────
+
+      - name: Pull Vercel project config + environment
+        run: npx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build for Vercel (outputs to .vercel/output/)
+        run: npx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy prebuilt artifact to Vercel
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(npx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+
+      - name: Write deployment summary
+        run: |
+          echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Quality Gate | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+          echo "| TypeScript type-check | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| ESLint | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit tests (≥80% coverage) | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| E2E tests — Chromium (2 retries) | ✅ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Production URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY

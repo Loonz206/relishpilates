@@ -19,9 +19,10 @@ test.describe("Smoke — Homepage", () => {
     await expect(
       page.getByRole("link", { name: "Book a session" }).first()
     ).toBeVisible();
-    // Navbar CTA
+    // Navbar CTA — scoped to nav to avoid ambiguity with hero CTAs
+    const nav = page.getByRole("navigation", { name: "Main navigation" });
     await expect(
-      page.getByRole("link", { name: "Book a Session" })
+      nav.getByRole("link", { name: "Book a Session", exact: true })
     ).toBeVisible();
   });
 

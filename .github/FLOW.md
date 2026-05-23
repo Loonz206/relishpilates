@@ -9,15 +9,15 @@ This document describes the agentic pipeline for building new features and pages
 ```mermaid
 graph TD
     A[Task Request] --> B{Touches external library?}
-    B -- Yes --> C[/agent research]
-    B -- No --> D[/agent code]
+    B -- Yes --> C["/agent research"]
+    B -- No --> D["/agent code"]
     C --> D
-    D --> E[/agent lint]
-    E --> F[/agent accessibility]
-    F --> G[/agent testing]
-    G --> H[/agent e2e-testing]
-    H --> I[/agent docs]
-    H --> J[/agent reflective]
+    D --> E["/agent lint"]
+    E --> F["/agent accessibility"]
+    F --> G["/agent testing"]
+    G --> H["/agent e2e-testing"]
+    H --> I["/agent docs"]
+    H --> J["/agent reflective"]
     I --> K[Done]
     J --> K
 ```
