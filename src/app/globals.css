@@ -10,6 +10,12 @@
   --color-relish-main: #397c52;
   --color-mid-olive: #8fa68a;
   --color-lime: #dfff92;
+  --color-blue: #9cd9ed;
+  --color-coral: #f3bba3;
+  --color-teal-light: #2a9d8f;
+  --color-teal-deep: #215a5d;
+  --color-lemon: #fff6bd;
+  --color-flamingo: #eac3cb;
 
   /* Fonts */
   --font-ramillas: var(--font-tt-ramillas), Georgia, serif;

@@ -1,22 +1,39 @@
 import Link from "next/link";
+import Button from "@/components/Button";
+import Card from "@/components/Card";
 
 const navLinks = [
-  { label: "Book Now", href: "#schedule" },
-  { label: "Schedule", href: "#schedule" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Videos", href: "#videos" },
+  { label: "Book Now", href: "/#schedule" },
+  { label: "Schedule", href: "/#schedule" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Videos", href: "/#videos" },
 ];
 
 const moreLinks = [
-  { label: "About", href: "#about" },
-  { label: "FAQ", href: "#faq" },
+  { label: "About", href: "/#about" },
+  { label: "FAQ", href: "/faq" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-light-sage w-full py-12 lg:py-20">
+    <footer className="w-full">
+      <div className="relative h-20 w-full bg-light" aria-hidden="true">
+        <svg
+          className="absolute inset-x-0 bottom-0 h-full w-full"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0 45C25 45 35 18 58 18C82 18 90 55 120 55C150 55 165 18 195 18C225 18 230 76 260 76C288 76 298 18 330 18C362 18 375 45 415 45C450 45 470 18 505 18C540 18 548 55 578 55C610 55 620 18 650 18C678 18 690 76 720 76C750 76 760 18 790 18C820 18 835 45 865 45C897 45 910 18 940 18C970 18 980 55 1010 55C1040 55 1050 18 1080 18C1110 18 1125 45 1155 45C1175 45 1188 40 1200 40V120H0V45Z"
+            fill="#c5ccba"
+          />
+        </svg>
+      </div>
+
+      <div className="bg-light-sage py-12 lg:py-20">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-8 px-6 lg:px-10">
       {/* Brand headline */}
       <div className="flex flex-col items-center">
@@ -28,12 +45,12 @@ export default function Footer() {
       {/* Cards row */}
       <div className="flex flex-col md:flex-row gap-8 items-start md:items-end w-full">
         {/* Contact form card */}
-        <div className="flex-1 bg-light border border-dark rounded-3xl px-6 py-8 shadow-[8px_8px_0px_#1f5534] flex flex-col gap-6">
+        <Card className="flex-1 flex flex-col gap-6" borderClassName="border-dark">
           <h2 className="font-ramillas font-black text-dark text-2xl leading-9">
             Got questions?
           </h2>
           <form className="flex flex-col gap-4" aria-label="Contact form">
-            <label className="flex flex-col gap-1">
+            <label className="flex flex-col gap-1" suppressHydrationWarning>
               <span className="font-nunito font-normal text-dark text-base leading-6">Name</span>
               <input
                 type="text"
@@ -43,7 +60,7 @@ export default function Footer() {
                 className="bg-light-sage rounded-full px-6 py-2 font-nunito font-light text-dark text-base leading-6 border-none outline-none focus-visible:ring-2 focus-visible:ring-dark-pickle"
               />
             </label>
-            <label className="flex flex-col gap-1">
+            <label className="flex flex-col gap-1" suppressHydrationWarning>
               <span className="font-nunito font-normal text-dark text-base leading-6">Email</span>
               <input
                 type="email"
@@ -54,7 +71,7 @@ export default function Footer() {
                 className="bg-light-sage rounded-full px-6 py-2 font-nunito font-light text-dark text-base leading-6 border-none outline-none focus-visible:ring-2 focus-visible:ring-dark-pickle"
               />
             </label>
-            <label className="flex flex-col gap-1">
+            <label className="flex flex-col gap-1" suppressHydrationWarning>
               <span className="font-nunito font-normal text-dark text-base leading-6">What&apos;s on your mind</span>
               <textarea
                 name="message"
@@ -64,17 +81,17 @@ export default function Footer() {
                 className="bg-light-sage rounded-2xl px-6 py-3 font-nunito font-light text-dark text-base leading-6 border-none outline-none focus-visible:ring-2 focus-visible:ring-dark-pickle resize-none"
               />
             </label>
-            <button
+            <Button
               type="submit"
-              className="self-start bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-8 py-2 rounded-full hover:bg-lavender/80 transition-colors cursor-pointer touch-manipulation"
+              className="self-start cursor-pointer"
             >
               Send Message
-            </button>
+            </Button>
           </form>
-        </div>
+        </Card>
 
         {/* Nav links card */}
-        <div className="flex-1 bg-light border border-dark-pickle rounded-3xl px-6 py-8 shadow-[8px_8px_0px_#1f5534]">
+        <Card className="flex-1" borderClassName="border-dark-pickle">
           <div className="flex gap-8 font-nunito font-light text-dark-pickle text-lg leading-7">
             <ul className="list-none m-0 p-0 flex flex-col gap-1">
               {navLinks.map(({ label, href }) => (
@@ -95,7 +112,7 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-        </div>
+        </Card>
 
         {/* Locations card */}
         <div className="flex-1 px-6 py-8 rounded-3xl flex flex-col">
@@ -134,6 +151,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
+      </div>
       </div>
       </div>
     </footer>

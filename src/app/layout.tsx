@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Nunito_Sans, Press_Start_2P } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const ttRamillas = localFont({
@@ -47,7 +49,13 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {children}
+        <div className="bg-light min-h-screen flex flex-col overflow-x-hidden">
+          <Navbar />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

@@ -1,11 +1,11 @@
 import Link from "next/link";
 
 const navLinks = [
-  { label: "Schedule", href: "#schedule" },
-  { label: "Pricing", href: "#pricing" },
-  { label: "Videos", href: "#videos" },
-  { label: "About", href: "#about" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Schedule", href: "/#schedule" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Videos", href: "/#videos" },
+  { label: "About", href: "/#about" },
+  { label: "FAQ", href: "/faq" },
 ];
 
 export default function Navbar() {
@@ -42,7 +42,7 @@ export default function Navbar() {
 
           {/* CTA button */}
           <Link
-            href="#schedule"
+            href="/#schedule"
             className="bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-4 py-2 rounded-full whitespace-nowrap no-underline hover:bg-lavender/80 transition-colors touch-manipulation"
           >
             Book a Session

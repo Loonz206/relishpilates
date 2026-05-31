@@ -41,16 +41,16 @@ describe("Footer", () => {
 
   it("renders all navLinks", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: "Book Now" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Schedule" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Pricing" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Videos" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Book Now" })).toHaveAttribute("href", "/#schedule");
+    expect(screen.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", "/#schedule");
+    expect(screen.getByRole("link", { name: "Pricing" })).toHaveAttribute("href", "/pricing");
+    expect(screen.getByRole("link", { name: "Videos" })).toHaveAttribute("href", "/#videos");
   });
 
   it("renders all moreLinks", () => {
     render(<Footer />);
-    expect(screen.getByRole("link", { name: "About" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "FAQ" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/#about");
+    expect(screen.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/faq");
     expect(screen.getByRole("link", { name: "Privacy" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Terms" })).toBeInTheDocument();
   });

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Button from "@/components/Button";
+import StepCard from "@/components/StepCard";
 
 const steps = [
   {
@@ -37,7 +38,35 @@ export default function StepsSection() {
       className="w-full pb-16 lg:pb-[120px] scroll-mt-24"
       aria-labelledby="steps-heading"
     >
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 lg:px-10">
+      <div className="relative max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 px-6 lg:px-10 pt-10 lg:pt-12">
+      {/* Decorative drips */}
+      <div
+        className="pointer-events-none absolute left-8 top-0 lg:left-12"
+        aria-hidden="true"
+      >
+        <svg
+          width="182"
+          height="120"
+          viewBox="0 0 182 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-[88px] w-[132px] overflow-visible lg:h-[120px] lg:w-[182px]"
+        >
+          <path
+            d="M44 6C31 18 20 40 24 55C27 67 41 71 50 63C58 56 58 43 60 31C62 20 66 11 74 5C62 8 53 7 44 6Z"
+            fill="#397C52"
+          />
+          <path
+            d="M100 0C84 11 70 40 69 63C68 88 82 109 98 114C113 119 126 106 127 85C128 61 118 34 112 16C109 8 106 3 100 0Z"
+            fill="#397C52"
+          />
+          <path
+            d="M136 5C145 11 149 20 151 31C153 43 153 56 161 63C170 71 184 67 187 55C191 40 180 18 167 6C158 7 148 8 136 5Z"
+            fill="#397C52"
+          />
+        </svg>
+      </div>
+
       {/* Heading */}
       <div className="lg:col-span-12 flex flex-col items-center text-center">
         <p className="font-nunito font-light text-dark text-[32px] leading-[48px]">
@@ -54,34 +83,19 @@ export default function StepsSection() {
       {/* Step cards */}
       <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
         {steps.map((step) => (
-          <div
+          <StepCard
             key={step.number}
-            className="flex-1 bg-light border border-dark rounded-3xl px-6 py-8 shadow-[8px_8px_0px_#dfff92] flex flex-col gap-2"
-          >
-            <p className="font-press text-lavender text-[32px] leading-10 [text-shadow:-2px_2px_0px_#1d1d1f]">
-              {step.number}
-            </p>
-            <div className="flex flex-col gap-4 text-dark">
-              <h3 className="font-ramillas font-black text-[32px] leading-10">
-                {step.title}
-              </h3>
-              <ul className="font-nunito font-light text-lg leading-7 list-disc pl-6 flex flex-col gap-1">
-                {step.bullets.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+            number={step.number}
+            title={step.title}
+            bullets={step.bullets}
+          />
         ))}
       </div>
 
       {/* CTA */}
-      <Link
-        href="#schedule"
-        className="lg:col-span-12 justify-self-center bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-8 py-2 rounded-full shadow-[6px_6px_0px_#1d1d1f] no-underline motion-safe:hover:translate-x-[1px] motion-safe:hover:translate-y-[1px] motion-safe:hover:shadow-[4px_4px_0px_#1d1d1f] transition-[transform,box-shadow] touch-manipulation"
-      >
+      <Button href="#schedule" className="lg:col-span-12 justify-self-center">
         Book a session
-      </Link>
+      </Button>
       </div>
     </section>
   );

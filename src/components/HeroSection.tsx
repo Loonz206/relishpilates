@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Button from "@/components/Button";
 
 export default function HeroSection() {
   return (
@@ -25,12 +25,9 @@ export default function HeroSection() {
           <br />
           Haven&apos;t tried Pilates before? Welcome!
         </p>
-        <Link
-          href="#schedule"
-          className="self-start bg-lavender border border-dark text-dark font-nunito font-normal text-lg leading-6 px-8 py-2 rounded-full shadow-[6px_6px_0px_#1d1d1f] no-underline motion-safe:hover:translate-x-[1px] motion-safe:hover:translate-y-[1px] motion-safe:hover:shadow-[4px_4px_0px_#1d1d1f] transition-[transform,box-shadow] touch-manipulation"
-        >
+        <Button href="#schedule" className="self-start">
           Book a session
-        </Link>
+        </Button>
       </div>
 
       {/* Media grid — columns 7–12, hidden on small screens */}

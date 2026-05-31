@@ -20,11 +20,13 @@ describe("AboutSection", () => {
     expect(screen.getByText(/relish pilates is all about sharing movement/i)).toBeInTheDocument();
   });
 
-  it("renders the decorative graphic image with empty alt inside aria-hidden wrapper", () => {
+  it("renders a decorative SVG inside an aria-hidden wrapper", () => {
     const { container } = render(<AboutSection />);
-    // The decorative image is inside an aria-hidden div, so query the DOM directly
-    const decorativeImg = container.querySelector('img[alt=""]');
-    expect(decorativeImg).toBeInTheDocument();
+    const decorativeWrapper = container.querySelector('div[aria-hidden="true"]');
+    const decorativeSvg = decorativeWrapper?.querySelector("svg");
+
+    expect(decorativeWrapper).toBeInTheDocument();
+    expect(decorativeSvg).toBeInTheDocument();
   });
 
   it("has the about-heading id on the h2", () => {

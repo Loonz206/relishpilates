@@ -31,13 +31,13 @@ describe("Navbar", () => {
     expect(logo).toHaveAttribute("href", "/");
   });
 
-  it("nav links point to correct hash anchors", () => {
+  it("nav links point to correct routes and anchors", () => {
     render(<Navbar />);
-    expect(screen.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", "#schedule");
-    expect(screen.getByRole("link", { name: "Pricing" })).toHaveAttribute("href", "#pricing");
-    expect(screen.getByRole("link", { name: "Videos" })).toHaveAttribute("href", "#videos");
-    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "#about");
-    expect(screen.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "#faq");
+    expect(screen.getByRole("link", { name: "Schedule" })).toHaveAttribute("href", "/#schedule");
+    expect(screen.getByRole("link", { name: "Pricing" })).toHaveAttribute("href", "/pricing");
+    expect(screen.getByRole("link", { name: "Videos" })).toHaveAttribute("href", "/#videos");
+    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/#about");
+    expect(screen.getByRole("link", { name: "FAQ" })).toHaveAttribute("href", "/faq");
   });
 
   it("renders inside a header landmark", () => {
