@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "Relish CMS Local Contract",
+    "description": "Phase 1 local content contract resources served by json-server.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Globals",
+      "item": [
+        {
+          "name": "Get Site Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/siteConfig",
+              "host": ["{{baseUrl}}"],
+              "path": ["siteConfig"]
+            }
+          }
+        },
+        {
+          "name": "Get Navigation Menu",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/navigationMenu",
+              "host": ["{{baseUrl}}"],
+              "path": ["navigationMenu"]
+            }
+          }
+        },
+        {
+          "name": "Get Footer Contact Block",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/footerContactBlock",
+              "host": ["{{baseUrl}}"],
+              "path": ["footerContactBlock"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pages",
+      "item": [
+        {
+          "name": "Get Home Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/homePage",
+              "host": ["{{baseUrl}}"],
+              "path": ["homePage"]
+            }
+          }
+        },
+        {
+          "name": "Get FAQ Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/faqPage",
+              "host": ["{{baseUrl}}"],
+              "path": ["faqPage"]
+            }
+          }
+        },
+        {
+          "name": "Get Pricing Page",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pricingPage",
+              "host": ["{{baseUrl}}"],
+              "path": ["pricingPage"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001"
+    }
+  ]
+}

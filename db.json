@@ -1,0 +1,192 @@
+{
+  "siteConfig": {
+    "brandName": "Relish Pilates",
+    "brandHandle": "RelishPilates",
+    "metadataTitle": "Relish Pilates — Yummy, challenging, feel-good Pilates",
+    "metadataDescription": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel."
+  },
+  "navigationMenu": {
+    "links": [
+      { "label": "Schedule", "href": "/#schedule" },
+      { "label": "Pricing", "href": "/pricing" },
+      { "label": "Videos", "href": "/#videos" },
+      { "label": "About", "href": "/#about" },
+      { "label": "FAQ", "href": "/faq" }
+    ],
+    "cta": {
+      "label": "Book a Session",
+      "href": "/#schedule"
+    }
+  },
+  "footerContactBlock": {
+    "heading": "Got questions?",
+    "formAriaLabel": "Contact form",
+    "fields": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name...",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "messageLabel": "What's on your mind",
+      "messagePlaceholder": "Tell me what's on your mind...",
+      "submitLabel": "Send Message"
+    },
+    "primaryLinks": [
+      { "label": "Book Now", "href": "/#schedule" },
+      { "label": "Schedule", "href": "/#schedule" },
+      { "label": "Pricing", "href": "/pricing" },
+      { "label": "Videos", "href": "/#videos" }
+    ],
+    "secondaryLinks": [
+      { "label": "About", "href": "/#about" },
+      { "label": "FAQ", "href": "/faq" },
+      { "label": "Privacy", "href": "/privacy" },
+      { "label": "Terms", "href": "/terms" }
+    ],
+    "locationHeading": "Locations",
+    "locationBody": "Streaming from beautiful Bremerton, WA",
+    "socialLinks": [
+      {
+        "label": "Instagram",
+        "href": "https://instagram.com",
+        "ariaLabel": "Instagram"
+      }
+    ]
+  },
+  "homePage": {
+    "metadataTitle": "Relish Pilates — Yummy, challenging, feel-good Pilates",
+    "metadataDescription": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel.",
+    "hero": {
+      "heading": "Yummy, challenging, feel-good Pilates",
+      "paragraphs": [
+        "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel.",
+        "Join me in building strength, awakening flexibility, and moving through life with more freedom and ease.",
+        "Haven't tried Pilates before? Welcome!"
+      ],
+      "cta": {
+        "label": "Book a session",
+        "href": "#schedule"
+      },
+      "images": {
+        "welcomeAlt": "Relish Pilates welcome",
+        "mermaidAlt": "Pilates mermaid pose",
+        "legPullBackAlt": "Pilates leg pull back"
+      }
+    },
+    "about": {
+      "heading": "Strengthen. Stretch. Savor.",
+      "paragraphs": [
+        "Relish Pilates is all about sharing movement as a powerful and nourishing way to connect to yourself.",
+        "With a personal guide designing, leading and adapting your workout as you move, you get the most out of every moment.",
+        "And you can have some time that's truly all about you, what you want for your body and how you want to feel in it."
+      ]
+    },
+    "steps": {
+      "eyebrow": "How to Relish",
+      "heading": "Ready to Pilates",
+      "cta": {
+        "label": "Book a session",
+        "href": "#schedule"
+      },
+      "items": [
+        {
+          "number": "1",
+          "title": "Schedule a good time",
+          "bullets": [
+            "Book a time for your Pilates workout",
+            "Each session is 55-60 minutes",
+            "Create an account so you can make changes just in case",
+            "Check your confirmation email for everything you need"
+          ]
+        },
+        {
+          "number": "2",
+          "title": "Tell me about you",
+          "bullets": [
+            "Fill out a quick form before your session (included in your confirmation)",
+            "Relax — I'll use what you share to create a workout made just for you"
+          ]
+        },
+        {
+          "number": "3",
+          "title": "Zoom your workout",
+          "bullets": [
+            "Grab your mat and find some space to move your body",
+            "Log into Zoom at your scheduled time",
+            "Do Pilates!"
+          ]
+        }
+      ]
+    }
+  },
+  "faqPage": {
+    "metadataTitle": "FAQ | Relish Pilates",
+    "metadataDescription": "Find answers to common questions about Relish Pilates sessions and scheduling.",
+    "heading": "Frequently Asked Questions",
+    "items": [
+      {
+        "title": "FAQ title",
+        "body": "Paragraph 1 body copy"
+      },
+      {
+        "title": "FAQ title",
+        "body": "Paragraph 1 body copy"
+      }
+    ]
+  },
+  "pricingPage": {
+    "metadataTitle": "Pricing | Relish Pilates",
+    "metadataDescription": "Explore Relish Pilates session packages, including intro and multi-session pricing options.",
+    "heading": "Pricing options",
+    "packagesHeading": "Packages",
+    "highlights": [
+      "Each session is 55-60 minutes",
+      "Custom programming built around your body",
+      "One-on-one attention, every session",
+      "Real feedback, in real time"
+    ],
+    "notes": ["Sessions expire 6 months from purchase date", "Tax included at checkout"],
+    "faqLink": {
+      "label": "View FAQ",
+      "href": "/faq"
+    },
+    "introPackage": {
+      "name": "Intro Special\n3-Session Pack",
+      "price": "$195 | $65 per session",
+      "note": "*First-time students only",
+      "cta": {
+        "label": "Purchase >",
+        "href": "/#schedule",
+        "ariaLabel": "Purchase intro special 3-session pack"
+      }
+    },
+    "standardPackages": [
+      {
+        "name": "Single Session",
+        "price": "$75 per session",
+        "cta": {
+          "label": "Purchase >",
+          "href": "/#schedule",
+          "ariaLabel": "Purchase Single Session"
+        }
+      },
+      {
+        "name": "5-Session Pack",
+        "price": "$360 | $72 per session",
+        "cta": {
+          "label": "Purchase >",
+          "href": "/#schedule",
+          "ariaLabel": "Purchase 5-Session Pack"
+        }
+      },
+      {
+        "name": "10-Session Pack",
+        "price": "$700 | $70 per session",
+        "cta": {
+          "label": "Purchase >",
+          "href": "/#schedule",
+          "ariaLabel": "Purchase 10-Session Pack"
+        }
+      }
+    ]
+  }
+}

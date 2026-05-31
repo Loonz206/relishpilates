@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Relish Pilates
 
-## Getting Started
+## Local Development
 
-First, run the development server:
+The natural local development step is a single command:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This starts both:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Next.js at `http://localhost:3000`
+2. The local content contract API (json-server) at `http://localhost:3001`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The app defaults to local content mode in development.
 
-## Learn More
+If you want to run only the Next.js web server:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+yarn dev:web
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Copy the local environment template:
 
-## Deploy on Vercel
+```bash
+cp .env.local.example .env.local
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `CMS_PROVIDER` controls the content source (`local-api` by default for local dev).
+2. `CMS_LOCAL_BASE_URL` points to the local content API (default: `http://localhost:3001`).
+
+## Useful Scripts
+
+1. `yarn dev` - run web app + local content API
+2. `yarn dev:web` - run web app only
+3. `yarn mock-server:dev` - run local content API with watch mode
+4. `yarn content:health` - verify local content API is responding
+5. `yarn typecheck` - TypeScript validation
+6. `yarn lint` - ESLint validation
+7. `yarn test` - Jest tests
+
+## Local API Health Check
+
+After starting local development, run:
+
+```bash
+yarn content:health
+```
+
+Expected outcome: a small JSON response containing site config fields such as brand name and metadata.

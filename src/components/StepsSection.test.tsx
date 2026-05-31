@@ -37,7 +37,7 @@ describe("StepsSection", () => {
   it("renders step 1 bullet points", () => {
     render(<StepsSection />);
     expect(screen.getByText(/book a time for your pilates workout/i)).toBeInTheDocument();
-    expect(screen.getByText(/each session is 60 minutes/i)).toBeInTheDocument();
+    expect(screen.getByText(/each session is 55-60 minutes/i)).toBeInTheDocument();
   });
 
   it("renders step 2 bullet points", () => {
@@ -58,7 +58,10 @@ describe("StepsSection", () => {
 
   it("CTA link points to #schedule", () => {
     render(<StepsSection />);
-    expect(screen.getByRole("link", { name: /book a session/i })).toHaveAttribute("href", "#schedule");
+    expect(screen.getByRole("link", { name: /book a session/i })).toHaveAttribute(
+      "href",
+      "#schedule"
+    );
   });
 
   it("has aria-labelledby on the section", () => {
