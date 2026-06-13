@@ -565,3 +565,335 @@ describe("contentful-mock provider (unwrapLocalizedField)", () => {
     consoleSpy.mockRestore();
   });
 });
+
+// ------------------------------------------------------------------
+// resolveEntryLinks and normalizeContentfulResource coverage
+// ------------------------------------------------------------------
+
+describe("link resolution and normalization", () => {
+  const originalFetch = global.fetch;
+
+  beforeEach(() => {
+    resetModule();
+    process.env.CMS_PROVIDER = "contentful-delivery";
+    process.env.CONTENTFUL_SPACE_ID = "test-space";
+    process.env.CONTENTFUL_ENVIRONMENT = "master";
+    process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN = "test-token";
+    delete process.env.CONTENTFUL_MOCK_BASE_URL;
+  });
+
+  afterEach(() => {
+    delete process.env.CMS_PROVIDER;
+    delete process.env.CONTENTFUL_SPACE_ID;
+    delete process.env.CONTENTFUL_ENVIRONMENT;
+    delete process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN;
+    global.fetch = originalFetch;
+  });
+
+  it("normalizes navigationMenu with reference links", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                title: "Nav",
+                linksRefs: [
+                  { sys: { type: "Link", linkType: "Entry", id: "link-1" } },
+                  { sys: { type: "Link", linkType: "Entry", id: "link-2" } },
+                ],
+                ctaRef: { sys: { type: "Link", linkType: "Entry", id: "cta-1" } },
+              },
+            },
+          ],
+          includes: {
+            Entry: [
+              {
+                sys: { id: "link-1" },
+                fields: { label: "Home", href: "/" },
+              },
+              {
+                sys: { id: "link-2" },
+                fields: { label: "About", href: "/about" },
+              },
+              {
+                sys: { id: "cta-1" },
+                fields: { label: "Book", href: "/book" },
+              },
+            ],
+          },
+        }),
+    });
+
+    const { getNavigationMenu } = await importClient();
+    const result = await getNavigationMenu();
+    expect(result.links).toHaveLength(2);
+    expect(result.links[0].label).toBe("Home");
+    expect(result.cta.label).toBe("Book");
+  });
+
+  it("normalizes footerContactBlock with all reference types", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                heading: "Contact",
+                formAriaLabel: "Form",
+                fieldsRef: { sys: { type: "Link", linkType: "Entry", id: "fields-1" } },
+                primaryLinksRefs: [{ sys: { type: "Link", linkType: "Entry", id: "plink-1" } }],
+                secondaryLinksRefs: [{ sys: { type: "Link", linkType: "Entry", id: "slink-1" } }],
+                locationHeading: "Location",
+                locationBody: "City",
+                socialLinksRefs: [{ sys: { type: "Link", linkType: "Entry", id: "social-1" } }],
+              },
+            },
+          ],
+          includes: {
+            Entry: [
+              { sys: { id: "fields-1" }, fields: { nameLabel: "Name" } },
+              { sys: { id: "plink-1" }, fields: { label: "Primary" } },
+              { sys: { id: "slink-1" }, fields: { label: "Secondary" } },
+              { sys: { id: "social-1" }, fields: { label: "Social" } },
+            ],
+          },
+        }),
+    });
+
+    const { getFooterContactBlock } = await importClient();
+    const result = await getFooterContactBlock();
+    expect(result.heading).toBe("Contact");
+    expect(result.primaryLinks).toHaveLength(1);
+    expect(result.secondaryLinks).toHaveLength(1);
+    expect(result.socialLinks).toHaveLength(1);
+  });
+
+  it("normalizes homePage with hero, about, and steps references", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                internalName: "Home",
+                metadataTitle: "Home",
+                metadataDescription: "Home page",
+                heroRef: { sys: { type: "Link", linkType: "Entry", id: "hero-1" } },
+                aboutRef: { sys: { type: "Link", linkType: "Entry", id: "about-1" } },
+                stepsRef: { sys: { type: "Link", linkType: "Entry", id: "steps-1" } },
+              },
+            },
+          ],
+          includes: {
+            Entry: [
+              {
+                sys: { id: "hero-1" },
+                fields: {
+                  heading: "Hero Heading",
+                  paragraphs: ["Para 1"],
+                  ctaRef: { sys: { type: "Link", linkType: "Entry", id: "hero-cta" } },
+                  welcomeAlt: "Welcome",
+                  mermaidAlt: "Mermaid",
+                  legPullBackAlt: "Leg",
+                },
+              },
+              {
+                sys: { id: "about-1" },
+                fields: { heading: "About", paragraphs: ["About para"] },
+              },
+              {
+                sys: { id: "steps-1" },
+                fields: {
+                  eyebrow: "Eye",
+                  heading: "Steps",
+                  ctaRef: { sys: { type: "Link", linkType: "Entry", id: "steps-cta" } },
+                  itemRefs: [{ sys: { type: "Link", linkType: "Entry", id: "step-1" } }],
+                },
+              },
+              { sys: { id: "hero-cta" }, fields: { label: "Book" } },
+              { sys: { id: "steps-cta" }, fields: { label: "Start" } },
+              {
+                sys: { id: "step-1" },
+                fields: { number: "1", title: "First", bullets: ["A"] },
+              },
+            ],
+          },
+        }),
+    });
+
+    const { getHomePageContent } = await importClient();
+    const result = await getHomePageContent();
+    expect(result.hero.heading).toBe("Hero Heading");
+    expect(result.about.heading).toBe("About");
+    expect(result.steps.heading).toBe("Steps");
+    expect(result.steps.items).toHaveLength(1);
+  });
+
+  it("normalizes faqPage with item references", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                heading: "FAQ",
+                metadataTitle: "FAQ",
+                metadataDescription: "FAQ page",
+                itemRefs: [
+                  { sys: { type: "Link", linkType: "Entry", id: "faq-1" } },
+                  { sys: { type: "Link", linkType: "Entry", id: "faq-2" } },
+                ],
+              },
+            },
+          ],
+          includes: {
+            Entry: [
+              { sys: { id: "faq-1" }, fields: { title: "Q1", body: "A1" } },
+              { sys: { id: "faq-2" }, fields: { title: "Q2", body: "A2" } },
+            ],
+          },
+        }),
+    });
+
+    const { getFaqPageContent } = await importClient();
+    const result = await getFaqPageContent();
+    expect(result.heading).toBe("FAQ");
+    expect(result.items).toHaveLength(2);
+    expect(result.items[0].title).toBe("Q1");
+  });
+
+  it("normalizes pricingPage with package references", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                heading: "Pricing",
+                packagesHeading: "Packages",
+                metadataTitle: "Pricing",
+                metadataDescription: "Pricing page",
+                highlights: ["H1"],
+                notes: ["N1"],
+                faqLinkRef: { sys: { type: "Link", linkType: "Entry", id: "faq-link" } },
+                introPackageRef: {
+                  sys: { type: "Link", linkType: "Entry", id: "intro-pkg" },
+                },
+                standardPackageRefs: [
+                  { sys: { type: "Link", linkType: "Entry", id: "std-pkg-1" } },
+                ],
+              },
+            },
+          ],
+          includes: {
+            Entry: [
+              { sys: { id: "faq-link" }, fields: { label: "FAQ" } },
+              {
+                sys: { id: "intro-pkg" },
+                fields: {
+                  name: "Intro",
+                  price: "$195",
+                  ctaRef: { sys: { type: "Link", linkType: "Entry", id: "intro-cta" } },
+                },
+              },
+              {
+                sys: { id: "std-pkg-1" },
+                fields: {
+                  name: "Standard",
+                  price: "$75",
+                  ctaRef: { sys: { type: "Link", linkType: "Entry", id: "std-cta" } },
+                },
+              },
+              { sys: { id: "intro-cta" }, fields: { label: "Buy Intro" } },
+              { sys: { id: "std-cta" }, fields: { label: "Buy" } },
+            ],
+          },
+        }),
+    });
+
+    const { getPricingPageContent } = await importClient();
+    const result = await getPricingPageContent();
+    expect(result.heading).toBe("Pricing");
+    expect(result.introPackage.name).toBe("Intro");
+    expect(result.standardPackages).toHaveLength(1);
+    expect(result.standardPackages[0].name).toBe("Standard");
+  });
+
+  it("falls back to legacy fields when reference fields are missing", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                title: "Nav",
+                links: [{ label: "Legacy", href: "/" }],
+                cta: { label: "Legacy CTA" },
+              },
+            },
+          ],
+        }),
+    });
+
+    const { getNavigationMenu } = await importClient();
+    const result = await getNavigationMenu();
+    expect(result.links[0].label).toBe("Legacy");
+    expect(result.cta.label).toBe("Legacy CTA");
+  });
+
+  it("handles empty includes array gracefully", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                brandName: "Test",
+                brandHandle: "Test",
+                metadataTitle: "Test",
+                metadataDescription: "Test",
+              },
+            },
+          ],
+          includes: {
+            Entry: [],
+          },
+        }),
+    });
+
+    const { getSiteConfig } = await importClient();
+    const result = await getSiteConfig();
+    expect(result.brandName).toBe("Test");
+  });
+
+  it("handles missing includes gracefully", async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: () =>
+        Promise.resolve({
+          items: [
+            {
+              fields: {
+                brandName: "Test",
+                brandHandle: "Test",
+                metadataTitle: "Test",
+                metadataDescription: "Test",
+              },
+            },
+          ],
+        }),
+    });
+
+    const { getSiteConfig } = await importClient();
+    const result = await getSiteConfig();
+    expect(result.brandName).toBe("Test");
+  });
+});

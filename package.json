@@ -16,6 +16,7 @@
     "mock-server:contentful": "json-server --watch db.contentful-mock.json --port 3002",
     "mock-server:dev": "nodemon --watch db.json --ext json --exec \"yarn mock-server\"",
     "contentful:provision-models": "node scripts/contentful/provision-models.mjs",
+    "contentful:seed-content": "node scripts/contentful/seed-content.mjs",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

@@ -121,7 +121,138 @@ function arrayOfObjectsField(id, name, required, min, max) {
   };
 }
 
+function entryLinkField(id, name, required, linkContentType) {
+  return {
+    id,
+    name,
+    type: "Link",
+    localized: false,
+    required,
+    validations: linkContentType
+      ? [
+          {
+            linkContentType: [linkContentType],
+          },
+        ]
+      : [],
+    disabled: false,
+    omitted: false,
+    linkType: "Entry",
+  };
+}
+
+function arrayOfEntryLinksField(id, name, required, min, max, linkContentType) {
+  return {
+    id,
+    name,
+    type: "Array",
+    localized: false,
+    required,
+    items: {
+      type: "Link",
+      validations: linkContentType
+        ? [
+            {
+              linkContentType: [linkContentType],
+            },
+          ]
+        : [],
+      linkType: "Entry",
+    },
+    validations: [{ size: { min, max } }],
+    disabled: false,
+    omitted: false,
+  };
+}
+
 const contentTypes = [
+  {
+    id: "linkItem",
+    name: "Link Item",
+    displayField: "label",
+    fields: [
+      symbolField("label", "Label", true, [{ size: { max: 120 } }]),
+      symbolField("href", "Href", true, [{ size: { max: 255 } }]),
+      symbolField("ariaLabel", "Aria Label", false, [{ size: { max: 140 } }]),
+    ],
+  },
+  {
+    id: "footerFormFields",
+    name: "Footer Form Fields",
+    displayField: "nameLabel",
+    fields: [
+      symbolField("nameLabel", "Name Label", true, [{ size: { max: 100 } }]),
+      symbolField("namePlaceholder", "Name Placeholder", true, [{ size: { max: 140 } }]),
+      symbolField("emailLabel", "Email Label", true, [{ size: { max: 100 } }]),
+      symbolField("emailPlaceholder", "Email Placeholder", true, [{ size: { max: 140 } }]),
+      symbolField("messageLabel", "Message Label", true, [{ size: { max: 140 } }]),
+      textField("messagePlaceholder", "Message Placeholder", true, [{ size: { max: 255 } }]),
+      symbolField("submitLabel", "Submit Label", true, [{ size: { max: 100 } }]),
+    ],
+  },
+  {
+    id: "stepItem",
+    name: "Step Item",
+    displayField: "title",
+    fields: [
+      symbolField("number", "Number", true, [{ size: { max: 12 } }]),
+      symbolField("title", "Title", true, [{ size: { max: 140 } }]),
+      arrayOfSymbolsField("bullets", "Bullets", true, 1, 8),
+    ],
+  },
+  {
+    id: "heroBlock",
+    name: "Hero Block",
+    displayField: "heading",
+    fields: [
+      symbolField("heading", "Heading", true, [{ size: { max: 160 } }]),
+      arrayOfSymbolsField("paragraphs", "Paragraphs", true, 1, 6),
+      entryLinkField("ctaRef", "CTA", true, "linkItem"),
+      symbolField("welcomeAlt", "Welcome Image Alt", true, [{ size: { max: 160 } }]),
+      symbolField("mermaidAlt", "Mermaid Image Alt", true, [{ size: { max: 160 } }]),
+      symbolField("legPullBackAlt", "Leg Pull Back Image Alt", true, [{ size: { max: 160 } }]),
+    ],
+  },
+  {
+    id: "aboutBlock",
+    name: "About Block",
+    displayField: "heading",
+    fields: [
+      symbolField("heading", "Heading", true, [{ size: { max: 160 } }]),
+      arrayOfSymbolsField("paragraphs", "Paragraphs", true, 1, 8),
+    ],
+  },
+  {
+    id: "stepsBlock",
+    name: "Steps Block",
+    displayField: "heading",
+    fields: [
+      symbolField("eyebrow", "Eyebrow", true, [{ size: { max: 80 } }]),
+      symbolField("heading", "Heading", true, [{ size: { max: 120 } }]),
+      entryLinkField("ctaRef", "CTA", true, "linkItem"),
+      arrayOfEntryLinksField("itemRefs", "Step Items", true, 1, 10, "stepItem"),
+    ],
+  },
+  {
+    id: "faqItem",
+    name: "FAQ Item",
+    displayField: "title",
+    fields: [
+      symbolField("title", "Title", true, [{ size: { max: 160 } }]),
+      textField("body", "Body", true, [{ size: { max: 5000 } }]),
+    ],
+  },
+  {
+    id: "pricingPackage",
+    name: "Pricing Package",
+    displayField: "name",
+    fields: [
+      symbolField("name", "Name", true, [{ size: { max: 140 } }]),
+      symbolField("price", "Price", true, [{ size: { max: 100 } }]),
+      symbolField("note", "Note", false, [{ size: { max: 140 } }]),
+      entryLinkField("ctaRef", "CTA", true, "linkItem"),
+    ],
+  },
   {
     id: "siteConfig",
     name: "Site Config",
@@ -144,6 +275,8 @@ const contentTypes = [
       symbolField("title", "Title", true, [{ size: { max: 80 } }]),
       arrayOfObjectsField("links", "Links", true, 1, 10),
       objectField("cta", "CTA", true),
+      arrayOfEntryLinksField("linksRefs", "Links References", true, 1, 10, "linkItem"),
+      entryLinkField("ctaRef", "CTA Reference", true, "linkItem"),
     ],
   },
   {
@@ -159,6 +292,17 @@ const contentTypes = [
       symbolField("locationHeading", "Location Heading", true, [{ size: { max: 100 } }]),
       symbolField("locationBody", "Location Body", true, [{ size: { max: 255 } }]),
       arrayOfObjectsField("socialLinks", "Social Links", true, 1, 5),
+      entryLinkField("fieldsRef", "Fields Reference", true, "footerFormFields"),
+      arrayOfEntryLinksField("primaryLinksRefs", "Primary Links References", true, 1, 10, "linkItem"),
+      arrayOfEntryLinksField(
+        "secondaryLinksRefs",
+        "Secondary Links References",
+        true,
+        1,
+        10,
+        "linkItem"
+      ),
+      arrayOfEntryLinksField("socialLinksRefs", "Social Links References", true, 1, 5, "linkItem"),
     ],
   },
   {
@@ -172,6 +316,9 @@ const contentTypes = [
       objectField("hero", "Hero", true),
       objectField("about", "About", true),
       objectField("steps", "Steps", true),
+      entryLinkField("heroRef", "Hero Reference", true, "heroBlock"),
+      entryLinkField("aboutRef", "About Reference", true, "aboutBlock"),
+      entryLinkField("stepsRef", "Steps Reference", true, "stepsBlock"),
     ],
   },
   {
@@ -183,6 +330,7 @@ const contentTypes = [
       textField("metadataDescription", "Metadata Description", true, [{ size: { max: 160 } }]),
       symbolField("heading", "Heading", true, [{ size: { max: 100 } }]),
       arrayOfObjectsField("items", "Items", true, 1, 50),
+      arrayOfEntryLinksField("itemRefs", "Item References", true, 1, 50, "faqItem"),
     ],
   },
   {
@@ -199,6 +347,16 @@ const contentTypes = [
       objectField("faqLink", "FAQ Link", true),
       objectField("introPackage", "Intro Package", true),
       arrayOfObjectsField("standardPackages", "Standard Packages", true, 1, 10),
+      entryLinkField("faqLinkRef", "FAQ Link Reference", true, "linkItem"),
+      entryLinkField("introPackageRef", "Intro Package Reference", true, "pricingPackage"),
+      arrayOfEntryLinksField(
+        "standardPackageRefs",
+        "Standard Package References",
+        true,
+        1,
+        10,
+        "pricingPackage"
+      ),
     ],
   },
 ];
