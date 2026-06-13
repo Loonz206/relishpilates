@@ -124,12 +124,12 @@
     "heading": "Frequently Asked Questions",
     "items": [
       {
-        "title": "FAQ title",
-        "body": "Paragraph 1 body copy"
+        "title": "What is Pilates?",
+        "body": "Pilates is a low-impact exercise method that focuses on building strength, flexibility, and body awareness through controlled movements."
       },
       {
-        "title": "FAQ title",
-        "body": "Paragraph 1 body copy"
+        "title": "Do I need experience?",
+        "body": "No experience necessary. Our sessions are customized to your level and goals, whether you're a beginner or advanced practitioner."
       }
     ]
   },
@@ -185,6 +185,15 @@
           "label": "Purchase >",
           "href": "/#schedule",
           "ariaLabel": "Purchase 10-Session Pack"
+        }
+      },
+      {
+        "name": "Monthly Unlimited",
+        "price": "$300 per month",
+        "cta": {
+          "label": "Purchase >",
+          "href": "/#schedule",
+          "ariaLabel": "Purchase Monthly Unlimited"
         }
       }
     ]

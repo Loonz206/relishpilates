@@ -171,6 +171,151 @@ function unwrapLocalizedField(value: unknown): unknown {
   return Object.fromEntries(normalizedEntries);
 }
 
+function isLinkObject(
+  value: unknown
+): value is { sys: { type: string; linkType: string; id: string } } {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const sys = (value as { sys?: { type?: string; linkType?: string; id?: string } }).sys;
+  return !!sys && sys.type === "Link" && sys.linkType === "Entry" && typeof sys.id === "string";
+}
+
+function resolveEntryLinks(value: unknown, entriesById: Map<string, unknown>): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => resolveEntryLinks(item, entriesById));
+  }
+
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  if (isLinkObject(value)) {
+    const linkedEntry = entriesById.get(value.sys.id) as { fields?: unknown } | undefined;
+    if (!linkedEntry?.fields) {
+      return null;
+    }
+    return resolveEntryLinks(linkedEntry.fields, entriesById);
+  }
+
+  const objectValue = value as Record<string, unknown>;
+  const entries = Object.entries(objectValue).map(([key, nestedValue]) => [
+    key,
+    resolveEntryLinks(nestedValue, entriesById),
+  ]);
+  return Object.fromEntries(entries);
+}
+
+function normalizeContentfulResource<K extends ContentResource>(
+  resource: K,
+  fields: Record<string, unknown>
+): ContentContract[K] {
+  const data = fields;
+  const asRecord = (value: unknown): Record<string, unknown> =>
+    value && typeof value === "object" ? (value as Record<string, unknown>) : {};
+  const asArray = (value: unknown): unknown[] => (Array.isArray(value) ? value : []);
+
+  if (resource === "navigationMenu") {
+    return {
+      links: (data.linksRefs ?? data.links) as ContentContract["navigationMenu"]["links"],
+      cta: (data.ctaRef ?? data.cta) as ContentContract["navigationMenu"]["cta"],
+    } as ContentContract[K];
+  }
+
+  if (resource === "footerContactBlock") {
+    return {
+      heading: data.heading,
+      formAriaLabel: data.formAriaLabel,
+      fields: (data.fieldsRef ?? data.fields) as ContentContract["footerContactBlock"]["fields"],
+      primaryLinks: (data.primaryLinksRefs ??
+        data.primaryLinks) as ContentContract["footerContactBlock"]["primaryLinks"],
+      secondaryLinks: (data.secondaryLinksRefs ??
+        data.secondaryLinks) as ContentContract["footerContactBlock"]["secondaryLinks"],
+      locationHeading: data.locationHeading,
+      locationBody: data.locationBody,
+      socialLinks: (data.socialLinksRefs ??
+        data.socialLinks) as ContentContract["footerContactBlock"]["socialLinks"],
+    } as ContentContract[K];
+  }
+
+  if (resource === "homePage") {
+    const heroSource = asRecord(data.heroRef ?? data.hero);
+    const aboutSource = asRecord(data.aboutRef ?? data.about);
+    const stepsSource = asRecord(data.stepsRef ?? data.steps);
+    const stepItems = (stepsSource.itemRefs ??
+      stepsSource.items ??
+      []) as ContentContract["homePage"]["steps"]["items"];
+
+    return {
+      metadataTitle: data.metadataTitle,
+      metadataDescription: data.metadataDescription,
+      hero: {
+        heading: heroSource.heading,
+        paragraphs: heroSource.paragraphs,
+        cta: (heroSource.ctaRef ?? heroSource.cta) as ContentContract["homePage"]["hero"]["cta"],
+        images: heroSource.images ?? {
+          welcomeAlt: heroSource.welcomeAlt,
+          mermaidAlt: heroSource.mermaidAlt,
+          legPullBackAlt: heroSource.legPullBackAlt,
+        },
+      },
+      about: {
+        heading: aboutSource.heading,
+        paragraphs: aboutSource.paragraphs,
+      },
+      steps: {
+        eyebrow: stepsSource.eyebrow,
+        heading: stepsSource.heading,
+        cta: (stepsSource.ctaRef ?? stepsSource.cta) as ContentContract["homePage"]["steps"]["cta"],
+        items: stepItems,
+      },
+    } as ContentContract[K];
+  }
+
+  if (resource === "faqPage") {
+    return {
+      metadataTitle: data.metadataTitle,
+      metadataDescription: data.metadataDescription,
+      heading: data.heading,
+      items: (data.itemRefs ?? data.items) as ContentContract["faqPage"]["items"],
+    } as ContentContract[K];
+  }
+
+  if (resource === "pricingPage") {
+    const introSource = asRecord(data.introPackageRef ?? data.introPackage);
+    const standardSources = asArray(data.standardPackageRefs ?? data.standardPackages).map(
+      asRecord
+    );
+
+    return {
+      metadataTitle: data.metadataTitle,
+      metadataDescription: data.metadataDescription,
+      heading: data.heading,
+      packagesHeading: data.packagesHeading,
+      highlights: data.highlights,
+      notes: data.notes,
+      faqLink: (data.faqLinkRef ?? data.faqLink) as ContentContract["pricingPage"]["faqLink"],
+      introPackage: {
+        name: introSource.name,
+        price: introSource.price,
+        note: introSource.note,
+        cta: (introSource.ctaRef ??
+          introSource.cta) as ContentContract["pricingPage"]["introPackage"]["cta"],
+      },
+      standardPackages: standardSources.map((item) => ({
+        name: item.name,
+        price: item.price,
+        note: item.note,
+        cta: (item.ctaRef ??
+          item.cta) as ContentContract["pricingPage"]["standardPackages"][number]["cta"],
+      })),
+    } as unknown as ContentContract[K];
+  }
+
+  return fields as unknown as ContentContract[K];
+}
+
 async function fetchContentfulResource<K extends ContentResource>(
   resource: K,
   preview: boolean
@@ -223,6 +368,12 @@ async function fetchContentfulResource<K extends ContentResource>(
     items?: Array<{
       fields?: unknown;
     }>;
+    includes?: {
+      Entry?: Array<{
+        sys?: { id?: string };
+        fields?: unknown;
+      }>;
+    };
   };
 
   const fields = payload.items?.[0]?.fields;
@@ -231,7 +382,18 @@ async function fetchContentfulResource<K extends ContentResource>(
     throw new Error(`No Contentful entry found for ${resource}`);
   }
 
-  return unwrapLocalizedField(fields) as ContentContract[K];
+  const entriesById = new Map<string, unknown>();
+  for (const entry of payload.includes?.Entry ?? []) {
+    const entryId = entry.sys?.id;
+    if (entryId) {
+      entriesById.set(entryId, entry);
+    }
+  }
+
+  const resolved = resolveEntryLinks(fields, entriesById);
+  const unwrapped = unwrapLocalizedField(resolved) as Record<string, unknown>;
+
+  return normalizeContentfulResource(resource, unwrapped);
 }
 
 async function fetchContentResource<K extends ContentResource>(
