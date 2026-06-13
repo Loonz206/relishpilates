@@ -6,8 +6,9 @@
  * public helpers.
  */
 
-import { EventEmitter } from "events";
+import { EventEmitter } from "node:events";
 import { defaultContent } from "@/lib/cms/default-content";
+import type { ContentContract } from "@/lib/cms/types";
 
 // ------------------------------------------------------------------
 // Helpers to reset module state between tests
@@ -73,7 +74,7 @@ describe("getContentfulImageUrl", () => {
 // ------------------------------------------------------------------
 
 describe("getContentResourceTag", () => {
-  let getContentResourceTag: (resource: string) => string;
+  let getContentResourceTag: (resource: keyof ContentContract) => string;
 
   beforeEach(async () => {
     resetModule();
