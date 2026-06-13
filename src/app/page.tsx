@@ -5,7 +5,6 @@ import StepsSection from "@/components/StepsSection";
 
 export default async function Home() {
   const homePage = await getHomePageContent();
-  console.log("Home page content:", homePage); // Debug log to verify content <structure></structure>
 
   return (
     <>

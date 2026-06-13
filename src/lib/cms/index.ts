@@ -1,4 +1,5 @@
 export {
+  getContentResourceTag,
   getFaqPageContent,
   getFooterContactBlock,
   getHomePageContent,

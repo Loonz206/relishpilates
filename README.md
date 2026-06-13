@@ -33,6 +33,18 @@ Variables:
 
 1. `CMS_PROVIDER` controls the content source (`local-api` by default for local dev).
 2. `CMS_LOCAL_BASE_URL` points to the local content API (default: `http://localhost:3001`).
+3. `CONTENTFUL_SPACE_ID` is required for Contentful providers.
+4. `CONTENTFUL_ENVIRONMENT` defaults to `master`.
+5. `CONTENTFUL_DELIVERY_ACCESS_TOKEN` is used for `contentful-delivery` mode.
+6. `CONTENTFUL_PREVIEW_ACCESS_TOKEN` is used for `contentful-preview` mode.
+7. `CMS_REVALIDATE_SECRET` secures the webhook revalidation endpoint.
+
+Provider values:
+
+1. `local-api` - read from local json-server contract.
+2. `embedded` - read from repository fallback JSON contract.
+3. `contentful-delivery` - read published content from Contentful CDA.
+4. `contentful-preview` - read draft content from Contentful CPA.
 
 ## Useful Scripts
 
@@ -53,3 +65,22 @@ yarn content:health
 ```
 
 Expected outcome: a small JSON response containing site config fields such as brand name and metadata.
+
+## Revalidation Webhook
+
+The app includes a webhook endpoint at `/api/revalidate`.
+
+Request requirements:
+
+1. Method: `POST`
+2. Header: `x-cms-revalidate-secret: <CMS_REVALIDATE_SECRET>`
+3. Body: optional `contentType` or `tags` array
+
+Example:
+
+```bash
+curl -X POST http://localhost:3000/api/revalidate \
+	-H "Content-Type: application/json" \
+	-H "x-cms-revalidate-secret: $CMS_REVALIDATE_SECRET" \
+	-d '{"contentType":"homePage"}'
+```

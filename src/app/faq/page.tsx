@@ -16,7 +16,7 @@ export default async function FaqPage() {
 
   return (
     <section className="w-full pb-16 lg:pb-24" aria-labelledby="faq-heading">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 pt-8 lg:pt-12">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 pt-8 lg:pt-12">
         <h1
           id="faq-heading"
           className="text-center font-ramillas font-black text-dark-pickle text-[clamp(44px,6vw,72px)] leading-[1.1]"
