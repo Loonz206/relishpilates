@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/playwright-report
+/test-results
+
+# local planning docs (keep private)
+/plans/
 
 # next.js
 /.next/

@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+const cmsRevalidateSecret = process.env.CMS_REVALIDATE_SECRET ?? "";
+
 test.describe("Smoke — Homepage", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
@@ -166,9 +168,11 @@ test.describe("API Endpoints — Content Revalidation", () => {
   });
 
   test("revalidate endpoint accepts valid secret", async ({ request }) => {
+    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
+
     const response = await request.post("/api/revalidate", {
       headers: {
-        "x-cms-revalidate-secret": "dev-secret-change-in-production",
+        "x-cms-revalidate-secret": cmsRevalidateSecret,
       },
       data: {
         sys: { id: "entry-123", contentType: { sys: { id: "homePage" } } },
@@ -178,9 +182,11 @@ test.describe("API Endpoints — Content Revalidation", () => {
   });
 
   test("revalidate endpoint handles missing payload", async ({ request }) => {
+    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
+
     const response = await request.post("/api/revalidate", {
       headers: {
-        "x-cms-revalidate-secret": "dev-secret-change-in-production",
+        "x-cms-revalidate-secret": cmsRevalidateSecret,
       },
     });
     expect([200, 400, 204]).toContain(response.status());
@@ -199,9 +205,11 @@ test.describe("API Endpoints — Preview Mode", () => {
   });
 
   test("preview endpoint accepts valid secret and redirects", async ({ request }) => {
+    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
+
     const response = await request.get("/api/preview", {
       params: {
-        secret: "dev-secret-change-in-production",
+        secret: cmsRevalidateSecret,
         redirect: "/",
       },
       maxRedirects: 0,
