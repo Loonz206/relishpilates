@@ -1,7 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import FaqPage from "./page";
+import FaqPage, { generateMetadata } from "./page";
 
 describe("FAQ page", () => {
+  it("generateMetadata returns correct title and description", async () => {
+    const metadata = await generateMetadata();
+    expect(metadata.title).toBe("FAQ | Relish Pilates");
+    expect(metadata.description).toContain("questions");
+  });
   it("renders the main FAQ heading", async () => {
     render(await FaqPage());
     expect(

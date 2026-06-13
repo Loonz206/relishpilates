@@ -1,7 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import PricingPage from "./page";
+import PricingPage, { generateMetadata } from "./page";
 
 describe("Pricing page", () => {
+  it("generateMetadata returns correct title and description", async () => {
+    const metadata = await generateMetadata();
+    expect(metadata.title).toBe("Pricing | Relish Pilates");
+    expect(metadata.description).toContain("packages");
+  });
   it("renders the pricing heading", async () => {
     render(await PricingPage());
     expect(screen.getByRole("heading", { level: 1, name: /pricing options/i })).toBeInTheDocument();
