@@ -1,4 +1,5 @@
 export {
+  getContentfulImageUrl,
   getContentResourceTag,
   getFaqPageContent,
   getFooterContactBlock,

@@ -13,6 +13,9 @@ const CONTENT_TYPE_TO_RESOURCE = {
 
 type ContentResource = keyof typeof CONTENT_TYPE_TO_RESOURCE;
 
+/**
+ * Maps Contentful content type IDs to our internal resource names
+ */
 function resolveTagFromContentType(contentType: string | undefined) {
   if (!contentType) {
     return null;
@@ -26,10 +29,34 @@ function resolveTagFromContentType(contentType: string | undefined) {
   return null;
 }
 
+/**
+ * Extracts the revalidation secret from request headers or query params
+ */
 function getSecretFromRequest(request: NextRequest) {
   return (
     request.headers.get("x-cms-revalidate-secret") ?? request.nextUrl.searchParams.get("secret")
   );
+}
+
+/**
+ * Validates Contentful webhook signature (if provided)
+ * Note: Contentful signature validation can be added here if needed
+ */
+function getContentfulWebhookData(body: Record<string, unknown>) {
+  // Contentful webhook payload structure
+  const entry = body.sys as Record<string, unknown>;
+  const fields = body.fields as Record<string, unknown>;
+
+  if (!entry || !fields) {
+    return null;
+  }
+
+  return {
+    id: (entry.id as string) || "",
+    contentType: ((entry.contentType as Record<string, unknown>)?.sys as Record<string, unknown>)
+      ?.id as string,
+    updatedAt: entry.updatedAt as string,
+  };
 }
 
 export async function POST(request: NextRequest) {
@@ -54,6 +81,18 @@ export async function POST(request: NextRequest) {
   }
 
   const candidateTags = new Set<string>();
+
+  // Try to extract content type from Contentful webhook payload
+  const contentfulData = getContentfulWebhookData(body);
+  if (contentfulData?.contentType) {
+    const mappedTag = resolveTagFromContentType(contentfulData.contentType);
+    if (mappedTag) {
+      candidateTags.add(mappedTag);
+      console.log(`[Revalidate] Contentful ${contentfulData.contentType} updated`);
+    }
+  }
+
+  // Also support direct contentType field (legacy/local-api format)
   const contentType =
     typeof body.contentType === "string"
       ? body.contentType
@@ -66,6 +105,7 @@ export async function POST(request: NextRequest) {
     candidateTags.add(mappedTag);
   }
 
+  // Support explicit tags in payload
   if (Array.isArray(body.tags)) {
     for (const tag of body.tags) {
       if (typeof tag === "string" && tag.trim().length > 0) {
@@ -76,7 +116,8 @@ export async function POST(request: NextRequest) {
 
   if (candidateTags.size === 0) {
     // Safe fallback for unknown payloads.
-    revalidatePath("/");
+    console.log("[Revalidate] Unknown payload format, revalidating all pages");
+    revalidatePath("/", "layout");
 
     return NextResponse.json({
       revalidated: true,
@@ -85,12 +126,15 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  // Revalidate all tags
   for (const tag of candidateTags) {
-    revalidateTag(tag, "max");
+    revalidateTag(tag, "default");
+    console.log(`[Revalidate] Revalidated tag: ${tag}`);
   }
 
   return NextResponse.json({
     revalidated: true,
     tags: Array.from(candidateTags),
+    timestamp: new Date().toISOString(),
   });
 }

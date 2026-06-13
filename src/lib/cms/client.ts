@@ -3,6 +3,27 @@ import { request as httpsRequest } from "node:https";
 import { defaultContent } from "@/lib/cms/default-content";
 import type { ContentContract } from "@/lib/cms/types";
 
+/**
+ * Contentful Image URL Helper
+ * Transforms Contentful image URLs with optional resizing and quality parameters
+ */
+export function getContentfulImageUrl(
+  url: string,
+  options?: { width?: number; height?: number; quality?: number }
+): string {
+  if (!url.startsWith("https://images.ctfassets.net")) {
+    return url; // Return non-Contentful URLs unchanged
+  }
+
+  const params = new URLSearchParams();
+  if (options?.width) params.set("w", String(options.width));
+  if (options?.height) params.set("h", String(options.height));
+  if (options?.quality) params.set("q", String(options.quality));
+
+  const queryString = params.toString();
+  return queryString ? `${url}?${queryString}` : url;
+}
+
 type ContentResource = keyof ContentContract;
 type CmsProvider = "local-api" | "embedded" | "contentful-delivery" | "contentful-preview";
 
@@ -41,7 +62,24 @@ function getLocalApiBaseUrl() {
   return process.env.CMS_LOCAL_BASE_URL ?? "http://localhost:3001";
 }
 
+function isContentfulMockEnabled() {
+  return process.env.CONTENTFUL_MOCK_BASE_URL?.trim().length;
+}
+
+function getContentfulMockBaseUrl() {
+  return process.env.CONTENTFUL_MOCK_BASE_URL ?? "http://localhost:3002";
+}
+
 function getContentfulConfig(preview: boolean) {
+  if (isContentfulMockEnabled()) {
+    return {
+      host: "mock.contentful.local",
+      spaceId: "mock-space",
+      environment: "master",
+      token: "mock-token",
+    };
+  }
+
   const spaceId = process.env.CONTENTFUL_SPACE_ID;
   const environment = process.env.CONTENTFUL_ENVIRONMENT ?? "master";
   const deliveryToken = process.env.CONTENTFUL_DELIVERY_ACCESS_TOKEN;
@@ -137,6 +175,26 @@ async function fetchContentfulResource<K extends ContentResource>(
   resource: K,
   preview: boolean
 ): Promise<ContentContract[K]> {
+  if (isContentfulMockEnabled()) {
+    const mockUrl = new URL(`${getContentfulMockBaseUrl()}/entries`);
+    mockUrl.searchParams.set("content_type", resource);
+    mockUrl.searchParams.set("_limit", "1");
+
+    const payload = await requestJson<
+      Array<{
+        fields?: unknown;
+      }>
+    >(mockUrl.toString());
+
+    const fields = payload[0]?.fields;
+
+    if (!fields) {
+      throw new Error(`No Contentful mock entry found for ${resource}`);
+    }
+
+    return unwrapLocalizedField(fields) as ContentContract[K];
+  }
+
   const config = getContentfulConfig(preview);
   const endpoint = new URL(
     `https://${config.host}/spaces/${config.spaceId}/environments/${config.environment}/entries`

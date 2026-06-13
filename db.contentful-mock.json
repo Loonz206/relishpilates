@@ -1,0 +1,248 @@
+{
+  "entries": [
+    {
+      "id": "site-config-1",
+      "content_type": "siteConfig",
+      "fields": {
+        "brandName": { "en-US": "Relish Pilates" },
+        "brandHandle": { "en-US": "RelishPilates" },
+        "metadataTitle": { "en-US": "Relish Pilates - Feel-good Pilates" },
+        "metadataDescription": {
+          "en-US": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel."
+        }
+      }
+    },
+    {
+      "id": "navigation-menu-1",
+      "content_type": "navigationMenu",
+      "fields": {
+        "links": {
+          "en-US": [
+            { "label": { "en-US": "Schedule" }, "href": { "en-US": "/#schedule" } },
+            { "label": { "en-US": "Pricing" }, "href": { "en-US": "/pricing" } },
+            { "label": { "en-US": "Videos" }, "href": { "en-US": "/#videos" } },
+            { "label": { "en-US": "About" }, "href": { "en-US": "/#about" } },
+            { "label": { "en-US": "FAQ" }, "href": { "en-US": "/faq" } }
+          ]
+        },
+        "cta": {
+          "en-US": {
+            "label": { "en-US": "Book a Session" },
+            "href": { "en-US": "/#schedule" }
+          }
+        }
+      }
+    },
+    {
+      "id": "footer-contact-1",
+      "content_type": "footerContactBlock",
+      "fields": {
+        "heading": { "en-US": "Got questions?" },
+        "formAriaLabel": { "en-US": "Contact form" },
+        "fields": {
+          "en-US": {
+            "nameLabel": { "en-US": "Name" },
+            "namePlaceholder": { "en-US": "Your name..." },
+            "emailLabel": { "en-US": "Email" },
+            "emailPlaceholder": { "en-US": "you@example.com" },
+            "messageLabel": { "en-US": "What's on your mind" },
+            "messagePlaceholder": { "en-US": "Tell me what's on your mind..." },
+            "submitLabel": { "en-US": "Send Message" }
+          }
+        },
+        "primaryLinks": {
+          "en-US": [
+            { "label": { "en-US": "Book Now" }, "href": { "en-US": "/#schedule" } },
+            { "label": { "en-US": "Schedule" }, "href": { "en-US": "/#schedule" } },
+            { "label": { "en-US": "Pricing" }, "href": { "en-US": "/pricing" } },
+            { "label": { "en-US": "Videos" }, "href": { "en-US": "/#videos" } }
+          ]
+        },
+        "secondaryLinks": {
+          "en-US": [
+            { "label": { "en-US": "About" }, "href": { "en-US": "/#about" } },
+            { "label": { "en-US": "FAQ" }, "href": { "en-US": "/faq" } },
+            { "label": { "en-US": "Privacy" }, "href": { "en-US": "/privacy" } },
+            { "label": { "en-US": "Terms" }, "href": { "en-US": "/terms" } }
+          ]
+        },
+        "locationHeading": { "en-US": "Locations" },
+        "locationBody": { "en-US": "Streaming from beautiful Bremerton, WA" },
+        "socialLinks": {
+          "en-US": [
+            {
+              "label": { "en-US": "Instagram" },
+              "href": { "en-US": "https://instagram.com" },
+              "ariaLabel": { "en-US": "Instagram" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "home-page-1",
+      "content_type": "homePage",
+      "fields": {
+        "metadataTitle": { "en-US": "Relish Pilates - Yummy, challenging, feel-good Pilates" },
+        "metadataDescription": {
+          "en-US": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel."
+        },
+        "hero": {
+          "en-US": {
+            "heading": { "en-US": "Yummy, challenging, feel-good Pilates" },
+            "paragraphs": {
+              "en-US": [
+                {
+                  "en-US": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel."
+                },
+                {
+                  "en-US": "Join me in building strength, awakening flexibility, and moving through life with more freedom and ease."
+                },
+                { "en-US": "Haven't tried Pilates before? Welcome!" }
+              ]
+            },
+            "cta": {
+              "en-US": {
+                "label": { "en-US": "Book a session" },
+                "href": { "en-US": "#schedule" }
+              }
+            },
+            "images": {
+              "en-US": {
+                "welcomeAlt": { "en-US": "Relish Pilates welcome" },
+                "mermaidAlt": { "en-US": "Pilates mermaid pose" },
+                "legPullBackAlt": { "en-US": "Pilates leg pull back" }
+              }
+            }
+          }
+        },
+        "about": {
+          "en-US": {
+            "heading": { "en-US": "Strengthen. Stretch. Savor." },
+            "paragraphs": {
+              "en-US": [
+                {
+                  "en-US": "Relish Pilates is all about sharing movement as a powerful and nourishing way to connect to yourself."
+                },
+                {
+                  "en-US": "With a personal guide designing, leading and adapting your workout as you move, you get the most out of every moment."
+                },
+                {
+                  "en-US": "And you can have some time that's truly all about you, what you want for your body and how you want to feel in it."
+                }
+              ]
+            }
+          }
+        },
+        "steps": {
+          "en-US": {
+            "eyebrow": { "en-US": "How to Relish" },
+            "heading": { "en-US": "Ready to Pilates" },
+            "cta": {
+              "en-US": {
+                "label": { "en-US": "Book a session" },
+                "href": { "en-US": "#schedule" }
+              }
+            },
+            "items": {
+              "en-US": [
+                {
+                  "number": { "en-US": "1" },
+                  "title": { "en-US": "Schedule a good time" },
+                  "bullets": {
+                    "en-US": [
+                      { "en-US": "Book a time for your Pilates workout" },
+                      { "en-US": "Each session is 55-60 minutes" },
+                      { "en-US": "Create an account so you can make changes just in case" },
+                      { "en-US": "Check your confirmation email for everything you need" }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "faq-page-1",
+      "content_type": "faqPage",
+      "fields": {
+        "metadataTitle": { "en-US": "FAQ | Relish Pilates" },
+        "metadataDescription": {
+          "en-US": "Find answers to common questions about Relish Pilates sessions and scheduling."
+        },
+        "heading": { "en-US": "Frequently Asked Questions" },
+        "items": {
+          "en-US": [
+            {
+              "title": { "en-US": "FAQ title" },
+              "body": { "en-US": "Paragraph 1 body copy" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "pricing-page-1",
+      "content_type": "pricingPage",
+      "fields": {
+        "metadataTitle": { "en-US": "Pricing | Relish Pilates" },
+        "metadataDescription": {
+          "en-US": "Explore Relish Pilates session packages, including intro and multi-session pricing options."
+        },
+        "heading": { "en-US": "Pricing options" },
+        "packagesHeading": { "en-US": "Packages" },
+        "highlights": {
+          "en-US": [
+            { "en-US": "Each session is 55-60 minutes" },
+            { "en-US": "Custom programming built around your body" },
+            { "en-US": "One-on-one attention, every session" },
+            { "en-US": "Real feedback, in real time" }
+          ]
+        },
+        "notes": {
+          "en-US": [
+            { "en-US": "Sessions expire 6 months from purchase date" },
+            { "en-US": "Tax included at checkout" }
+          ]
+        },
+        "faqLink": {
+          "en-US": {
+            "label": { "en-US": "View FAQ" },
+            "href": { "en-US": "/faq" }
+          }
+        },
+        "introPackage": {
+          "en-US": {
+            "name": { "en-US": "Intro Special - 3-Session Pack" },
+            "price": { "en-US": "$195 | $65 per session" },
+            "note": { "en-US": "*First-time students only" },
+            "cta": {
+              "en-US": {
+                "label": { "en-US": "Purchase >" },
+                "href": { "en-US": "/#schedule" },
+                "ariaLabel": { "en-US": "Purchase intro special 3-session pack" }
+              }
+            }
+          }
+        },
+        "standardPackages": {
+          "en-US": [
+            {
+              "name": { "en-US": "Single Session" },
+              "price": { "en-US": "$75 per session" },
+              "cta": {
+                "en-US": {
+                  "label": { "en-US": "Purchase >" },
+                  "href": { "en-US": "/#schedule" },
+                  "ariaLabel": { "en-US": "Purchase Single Session" }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

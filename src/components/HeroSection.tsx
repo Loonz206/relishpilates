@@ -50,6 +50,7 @@ export default function HeroSection({ content = defaultContent.homePage.hero }: 
                 sizes="296px"
                 className="object-cover"
                 priority
+                loading="eager"
                 unoptimized
               />
             </div>

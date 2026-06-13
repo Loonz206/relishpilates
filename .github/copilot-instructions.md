@@ -21,11 +21,11 @@ public/
 
 Three font families are available as Tailwind utilities:
 
-| Utility         | Family          | Notes                                |
-|-----------------|-----------------|--------------------------------------|
-| `font-ramillas` | TT Ramillas     | Self-hosted, black weight only (900) |
-| `font-nunito`   | Nunito Sans     | Light (300) and regular (400)        |
-| `font-press`    | Press Start 2P  | Monospace, decorative use            |
+| Utility         | Family         | Notes                                |
+| --------------- | -------------- | ------------------------------------ |
+| `font-ramillas` | TT Ramillas    | Self-hosted, black weight only (900) |
+| `font-nunito`   | Nunito Sans    | Light (300) and regular (400)        |
+| `font-press`    | Press Start 2P | Monospace, decorative use            |
 
 - Headlines use `font-ramillas font-black`
 - Body copy uses `font-nunito font-light`
@@ -34,16 +34,16 @@ Three font families are available as Tailwind utilities:
 
 All defined in `globals.css` as `--color-*` and usable as Tailwind utilities:
 
-| Utility           | Hex       |
-|-------------------|-----------|
-| `bg-light`        | `#fbf2ea` |
-| `bg-dark-pickle`  | `#1f5534` |
-| `text-dark`       | `#1d1d1f` |
-| `bg-lavender`     | `#d4c5f9` |
-| `bg-light-sage`   | `#c5ccba` |
-| `bg-relish-main`  | `#397c52` |
-| `bg-mid-olive`    | `#8fa68a` |
-| `bg-lime`         | `#dfff92` |
+| Utility          | Hex       |
+| ---------------- | --------- |
+| `bg-light`       | `#fbf2ea` |
+| `bg-dark-pickle` | `#1f5534` |
+| `text-dark`      | `#1d1d1f` |
+| `bg-lavender`    | `#d4c5f9` |
+| `bg-light-sage`  | `#c5ccba` |
+| `bg-relish-main` | `#397c52` |
+| `bg-mid-olive`   | `#8fa68a` |
+| `bg-lime`        | `#dfff92` |
 
 ## Design Conventions
 
@@ -68,3 +68,33 @@ yarn build     # production build
 yarn lint      # ESLint
 npx tsc --noEmit  # type-check without emitting
 ```
+
+<!-- rtk-instructions v2 -->
+
+# RTK — Token-Optimized CLI
+
+**rtk** is a CLI proxy that filters and compresses command outputs, saving 60-90% tokens.
+
+## Rule
+
+Always prefix shell commands with `rtk`:
+
+```bash
+# Instead of:              Use:
+git status                 rtk git status
+git log -10                rtk git log -10
+cargo test                 rtk cargo test
+docker ps                  rtk docker ps
+kubectl get pods           rtk kubectl pods
+```
+
+## Meta commands (use directly)
+
+```bash
+rtk gain              # Token savings dashboard
+rtk gain --history    # Per-command savings history
+rtk discover          # Find missed rtk opportunities
+rtk proxy <cmd>       # Run raw (no filtering) but track usage
+```
+
+<!-- /rtk-instructions -->

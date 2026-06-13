@@ -2,7 +2,7 @@
   "siteConfig": {
     "brandName": "Relish Pilates",
     "brandHandle": "RelishPilates",
-    "metadataTitle": "Relish Pilates — Yummy, challenging, feel-good Pilates",
+    "metadataTitle": "Relish Pilates — Feel-good Pilates",
     "metadataDescription": "Virtual Pilates classes built entirely around you. With custom programming and personal attention, every movement connects to how you want to move and feel."
   },
   "navigationMenu": {
@@ -150,7 +150,7 @@
       "href": "/faq"
     },
     "introPackage": {
-      "name": "Intro Special\n3-Session Pack",
+      "name": "Intro Special — 3-Session Pack",
       "price": "$195 | $65 per session",
       "note": "*First-time students only",
       "cta": {
