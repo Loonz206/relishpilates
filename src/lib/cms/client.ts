@@ -34,6 +34,8 @@ const RESOURCE_TAGS: Record<ContentResource, string> = {
   homePage: "cms:home",
   faqPage: "cms:faq",
   pricingPage: "cms:pricing",
+  privacyPage: "cms:privacy",
+  termsPage: "cms:terms",
 };
 
 function getConfiguredProvider(): CmsProvider {
@@ -55,6 +57,7 @@ function getConfiguredProvider(): CmsProvider {
     return "contentful-preview";
   }
 
+  // Default to local-api in development for easy testing
   return process.env.NODE_ENV === "development" ? "local-api" : "embedded";
 }
 
@@ -282,6 +285,24 @@ function normalizeContentfulResource<K extends ContentResource>(
     } as ContentContract[K];
   }
 
+  if (resource === "privacyPage") {
+    return {
+      metadataTitle: data.metadataTitle,
+      metadataDescription: data.metadataDescription,
+      heading: data.heading,
+      items: (data.itemRefs ?? data.items) as ContentContract["privacyPage"]["items"],
+    } as ContentContract[K];
+  }
+
+  if (resource === "termsPage") {
+    return {
+      metadataTitle: data.metadataTitle,
+      metadataDescription: data.metadataDescription,
+      heading: data.heading,
+      items: (data.itemRefs ?? data.items) as ContentContract["termsPage"]["items"],
+    } as ContentContract[K];
+  }
+
   if (resource === "pricingPage") {
     const introSource = asRecord(data.introPackageRef ?? data.introPackage);
     const standardSources = asArray(data.standardPackageRefs ?? data.standardPackages).map(
@@ -325,6 +346,8 @@ async function fetchContentfulResource<K extends ContentResource>(
     mockUrl.searchParams.set("content_type", resource);
     mockUrl.searchParams.set("_limit", "1");
 
+    console.log(`[CMS] Fetching content type: ${resource} (MOCK SERVER)`);
+
     const payload = await requestJson<
       Array<{
         fields?: unknown;
@@ -337,6 +360,7 @@ async function fetchContentfulResource<K extends ContentResource>(
       throw new Error(`No Contentful mock entry found for ${resource}`);
     }
 
+    console.log(`[CMS] Response: ${resource} data received from mock server`);
     return unwrapLocalizedField(fields) as ContentContract[K];
   }
 
@@ -360,12 +384,19 @@ async function fetchContentfulResource<K extends ContentResource>(
     },
   });
 
+  console.log(
+    `[CMS] Fetching content type: ${resource} ID: ${
+      resource === "siteConfig" ? "default" : "entry"
+    }`
+  );
+
   if (!response.ok) {
     throw new Error(`Failed Contentful request for ${resource}: ${response.status}`);
   }
 
   const payload = (await response.json()) as {
     items?: Array<{
+      sys?: { id?: string };
       fields?: unknown;
     }>;
     includes?: {
@@ -382,6 +413,11 @@ async function fetchContentfulResource<K extends ContentResource>(
     throw new Error(`No Contentful entry found for ${resource}`);
   }
 
+  console.log(`[CMS] Contentful API response for ${resource}:`, {
+    sysId: payload.items?.[0]?.sys?.id,
+    fieldCount: Object.keys(fields || {}).length,
+  });
+
   const entriesById = new Map<string, unknown>();
   for (const entry of payload.includes?.Entry ?? []) {
     const entryId = entry.sys?.id;
@@ -393,6 +429,8 @@ async function fetchContentfulResource<K extends ContentResource>(
   const resolved = resolveEntryLinks(fields, entriesById);
   const unwrapped = unwrapLocalizedField(resolved) as Record<string, unknown>;
 
+  console.log(`[CMS] Resolved data for ${resource}:`, unwrapped);
+
   return normalizeContentfulResource(resource, unwrapped);
 }
 
@@ -401,22 +439,30 @@ async function fetchContentResource<K extends ContentResource>(
 ): Promise<ContentContract[K]> {
   const provider = getConfiguredProvider();
 
-  try {
-    if (provider === "embedded") {
-      return defaultContent[resource];
-    }
+  if (provider === "embedded") {
+    console.warn(
+      `[CMS] Warning: Embedded provider deprecated. Using fallback content for ${resource}.`
+    );
+    return defaultContent[resource];
+  }
 
+  try {
     if (provider === "local-api") {
+      console.log(`[CMS] Using local API provider for ${resource}`);
       return await requestJson<ContentContract[K]>(`${getLocalApiBaseUrl()}/${resource}`);
     }
 
     if (provider === "contentful-delivery") {
+      console.log(`[CMS] Using Contentful delivery API for ${resource}`);
       return await fetchContentfulResource(resource, false);
     }
 
     return await fetchContentfulResource(resource, true);
   } catch (error) {
-    console.warn(`Falling back to embedded content for ${resource}.`, error);
+    console.warn(
+      `[CMS] Warning: Failed to fetch ${resource} from ${provider}, falling back to embedded.`,
+      error
+    );
     return defaultContent[resource];
   }
 }
@@ -447,4 +493,12 @@ export async function getFaqPageContent() {
 
 export async function getPricingPageContent() {
   return fetchContentResource("pricingPage");
+}
+
+export async function getPrivacyPageContent() {
+  return fetchContentResource("privacyPage");
+}
+
+export async function getTermsPageContent() {
+  return fetchContentResource("termsPage");
 }

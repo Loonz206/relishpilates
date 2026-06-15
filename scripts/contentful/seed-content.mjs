@@ -270,6 +270,20 @@ async function main() {
     });
   }
 
+  for (const [index, item] of source.privacyPage.items.entries()) {
+    await upsert("policyItem", `privacy-item-${index + 1}`, {
+      title: item.title,
+      body: item.body,
+    });
+  }
+
+  for (const [index, item] of source.termsPage.items.entries()) {
+    await upsert("policyItem", `terms-item-${index + 1}`, {
+      title: item.title,
+      body: item.body,
+    });
+  }
+
   await upsert("linkItem", "pricing-faq-link", {
     label: source.pricingPage.faqLink.label,
     href: source.pricingPage.faqLink.href,
@@ -353,6 +367,22 @@ async function main() {
     heading: source.faqPage.heading,
     items: [{}],
     itemRefs: source.faqPage.items.map((_item, index) => asLink(`faq-item-${index + 1}`)),
+  });
+
+  await upsert("privacyPage", "privacy-page-default", {
+    metadataTitle: source.privacyPage.metadataTitle,
+    metadataDescription: source.privacyPage.metadataDescription,
+    heading: source.privacyPage.heading,
+    items: [{}],
+    itemRefs: source.privacyPage.items.map((_item, index) => asLink(`privacy-item-${index + 1}`)),
+  });
+
+  await upsert("termsPage", "terms-page-default", {
+    metadataTitle: source.termsPage.metadataTitle,
+    metadataDescription: source.termsPage.metadataDescription,
+    heading: source.termsPage.heading,
+    items: [{}],
+    itemRefs: source.termsPage.items.map((_item, index) => asLink(`terms-item-${index + 1}`)),
   });
 
   await upsert("pricingPage", "pricing-page-default", {

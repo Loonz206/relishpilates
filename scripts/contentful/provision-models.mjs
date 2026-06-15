@@ -243,6 +243,15 @@ const contentTypes = [
     ],
   },
   {
+    id: "policyItem",
+    name: "Policy Item",
+    displayField: "title",
+    fields: [
+      symbolField("title", "Title", true, [{ size: { max: 160 } }]),
+      textField("body", "Body", true, [{ size: { max: 5000 } }]),
+    ],
+  },
+  {
     id: "pricingPackage",
     name: "Pricing Package",
     displayField: "name",
@@ -330,7 +339,31 @@ const contentTypes = [
       textField("metadataDescription", "Metadata Description", true, [{ size: { max: 160 } }]),
       symbolField("heading", "Heading", true, [{ size: { max: 100 } }]),
       arrayOfObjectsField("items", "Items", true, 1, 50),
-      arrayOfEntryLinksField("itemRefs", "Item References", true, 1, 50, "faqItem"),
+      arrayOfEntryLinksField("itemRefs", "Item References", true, 1, 50, "policyItem"),
+    ],
+  },
+  {
+    id: "privacyPage",
+    name: "Privacy Page",
+    displayField: "heading",
+    fields: [
+      symbolField("metadataTitle", "Metadata Title", true, [{ size: { max: 60 } }]),
+      textField("metadataDescription", "Metadata Description", true, [{ size: { max: 160 } }]),
+      symbolField("heading", "Heading", true, [{ size: { max: 100 } }]),
+      arrayOfObjectsField("items", "Items", true, 1, 50),
+      arrayOfEntryLinksField("itemRefs", "Item References", true, 1, 50, "policyItem"),
+    ],
+  },
+  {
+    id: "termsPage",
+    name: "Terms Page",
+    displayField: "heading",
+    fields: [
+      symbolField("metadataTitle", "Metadata Title", true, [{ size: { max: 60 } }]),
+      textField("metadataDescription", "Metadata Description", true, [{ size: { max: 160 } }]),
+      symbolField("heading", "Heading", true, [{ size: { max: 100 } }]),
+      arrayOfObjectsField("items", "Items", true, 1, 50),
+      arrayOfEntryLinksField("itemRefs", "Item References", true, 1, 50, "policyItem"),
     ],
   },
   {
