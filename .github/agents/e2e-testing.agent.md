@@ -2,7 +2,20 @@
 name: e2e-testing
 description: E2E testing agent using Playwright. Runs after unit tests to verify page routes, navigation, form behavior, and responsive layout in a real browser. Fixes failing specs without skipping or deleting them. Invoke with /agent e2e-testing or --agent e2e-testing.
 argument-hint: Describe the failing Playwright spec or user flow to test, and any error output or screenshot evidence
-tools: [edit/createFile, edit/editFiles, execute/runInTerminal, execute/getTerminalOutput, read/readFile, read/viewImage, read/problems, search/codebase, search/fileSearch, search/textSearch, search/listDirectory]
+tools:
+  [
+    edit/createFile,
+    edit/editFiles,
+    execute/runInTerminal,
+    execute/getTerminalOutput,
+    read/readFile,
+    read/viewImage,
+    read/problems,
+    search/codebase,
+    search/fileSearch,
+    search/textSearch,
+    search/listDirectory,
+  ]
 ---
 
 # E2E Testing Agent
@@ -15,7 +28,7 @@ This agent requires Playwright infrastructure. If `playwright.config.ts` does no
 
 ```
 Playwright is not installed. Run the following before using this agent:
-yarn add -D @playwright/test
+pnpm add -D @playwright/test
 npx playwright install
 ```
 
@@ -36,22 +49,22 @@ Before running Playwright, read `.github/AGENT_LEARNINGS.md`. Filter the Active 
 - Specs live in `e2e/` with the `.spec.ts` suffix
 - Test real user-visible behavior: visible text, ARIA roles, navigation outcomes
 - Do not test implementation details — test what a user sees and does
-- `playwright.config.ts` should auto-start `yarn dev` if port 3000 is not already serving
+- `playwright.config.ts` should auto-start `pnpm dev` if port 3000 is not already serving
 
 ## Workflow
 
 1. Start from the post-unit-test state.
-2. Run `yarn test:e2e`.
+2. Run `pnpm test:e2e`.
 3. If tests fail:
    a. Read the Playwright failure output carefully.
    b. Inspect generated trace, screenshot, or error artifacts when available.
    c. Determine whether the issue is in the app code or in an out-of-date test.
    d. Apply the smallest safe fix.
    e. Re-run the narrowest useful scope:
-      - Single spec: `yarn test:e2e -- e2e/my-spec.spec.ts`
-      - Single test: `yarn test:e2e -- --grep "test title"`
-   f. Re-run `yarn test:e2e`.
-   g. Retry up to **3 attempts total**.
+   - Single spec: `pnpm test:e2e -- e2e/my-spec.spec.ts`
+   - Single test: `pnpm test:e2e -- --grep "test title"`
+     f. Re-run `pnpm test:e2e`.
+     g. Retry up to **3 attempts total**.
 4. If failures persist after 3 attempts → record remaining failing specs and stop.
 
 ## Common Tests for This Project
@@ -67,7 +80,7 @@ When writing new E2E specs, cover at minimum:
 
 ## Constraints
 
-- Do not run `yarn lint` or `yarn test`.
+- Do not run `pnpm lint` or `pnpm test`.
 - Do not use `test.skip` as a fix.
 - Do not delete failing tests to make the suite pass.
 - Prefer the smallest fix that resolves the observed browser behavior.

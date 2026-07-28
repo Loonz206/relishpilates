@@ -5,7 +5,7 @@
 The natural local development step is a single command:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 This starts both:
@@ -18,7 +18,7 @@ The app defaults to local content mode in development.
 If you want to run only the Next.js web server:
 
 ```bash
-yarn dev:web
+pnpm dev:web
 ```
 
 ## Environment Setup
@@ -48,20 +48,20 @@ Provider values:
 
 ## Useful Scripts
 
-1. `yarn dev` - run web app + local content API
-2. `yarn dev:web` - run web app only
-3. `yarn mock-server:dev` - run local content API with watch mode
-4. `yarn content:health` - verify local content API is responding
-5. `yarn typecheck` - TypeScript validation
-6. `yarn lint` - ESLint validation
-7. `yarn test` - Jest tests
+1. `pnpm dev` - run web app + local content API
+2. `pnpm dev:web` - run web app only
+3. `pnpm mock-server:dev` - run local content API with watch mode
+4. `pnpm content:health` - verify local content API is responding
+5. `pnpm typecheck` - TypeScript validation
+6. `pnpm lint` - ESLint validation
+7. `pnpm test` - Jest tests
 
 ## Local API Health Check
 
 After starting local development, run:
 
 ```bash
-yarn content:health
+pnpm content:health
 ```
 
 Expected outcome: a small JSON response containing site config fields such as brand name and metadata.

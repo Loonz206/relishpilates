@@ -2,7 +2,21 @@
 name: code
 description: Focused coding agent. Implements new features, components, and pages following Relish Pilates conventions exactly. No linting, type-checking, or tests — those are handled by downstream agents. Invoke with /agent code or --agent code.
 argument-hint: Describe the feature, component, or page to build and any relevant design references or brand context
-tools: [edit/createFile, edit/editFiles, edit/rename, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, read/readFile, read/viewImage, read/problems, web/fetch]
+tools:
+  [
+    edit/createFile,
+    edit/editFiles,
+    edit/rename,
+    search/codebase,
+    search/fileSearch,
+    search/listDirectory,
+    search/textSearch,
+    search/usages,
+    read/readFile,
+    read/viewImage,
+    read/problems,
+    web/fetch,
+  ]
 ---
 
 # Code Agent
@@ -29,22 +43,26 @@ If the task touches an external library or API not already in this project, fetc
 Apply every rule below. These come directly from `.github/copilot-instructions.md`.
 
 ### Component Structure
+
 - One component per file, default export, **named function** (not `const` arrow assigned to variable)
 - Props typed inline or with a local `interface` above the component — not exported unless reused elsewhere
 - Static data arrays (nav links, step lists, etc.) defined at **module scope above** the component function
 - No `"use client"` unless browser APIs or React hooks are genuinely required
 
 ### Typography
+
 - Headlines: `font-ramillas font-black`
 - Body copy: `font-nunito font-light`
 - Headings that may wrap across lines: add `text-balance`
 - Decorative/monospace: `font-press`
 
 ### Brand Colors (use Tailwind utilities — never raw hex in className)
+
 - Background: `bg-light`, `bg-dark-pickle`, `bg-lavender`, `bg-light-sage`, `bg-relish-main`, `bg-mid-olive`, `bg-lime`
 - Text: `text-dark`
 
 ### Images
+
 - Always `next/image` (`<Image>`) — never `<img>`
 - `fill` layout images: include `object-cover` and an explicit `sizes` prop
   - Full-width: `sizes="100vw"`
@@ -52,9 +70,11 @@ Apply every rule below. These come directly from `.github/copilot-instructions.m
 - Decorative images: `aria-hidden="true"` and `alt=""`
 
 ### Links
+
 - Always `next/link` (`<Link>`) — never `<a>` directly
 
 ### Buttons / Pills
+
 - `rounded-full` with `border border-dark`
 - Offset box-shadow: `shadow-[6px_6px_0px_#1d1d1f]`
 - On hover: shift shadow in, add `touch-manipulation`
@@ -62,10 +82,12 @@ Apply every rule below. These come directly from `.github/copilot-instructions.m
 - **All transitions: `transition-[transform,box-shadow]`** — never `transition-all`
 
 ### Cards
+
 - `rounded-2xl` or `rounded-3xl`
 - Green offset shadow: `shadow-[8px_8px_0px_#1f5534]`
 
 ### Accessibility
+
 - `aria-label` on every `<nav>` and every form/button without visible text
 - `aria-labelledby` on landmark sections
 - `aria-hidden="true"` on decorative elements
@@ -73,6 +95,7 @@ Apply every rule below. These come directly from `.github/copilot-instructions.m
 - Interactive elements: `focus-visible:ring` (not `focus:ring`)
 
 ### Responsive
+
 - Mobile-first, primary desktop breakpoint is `lg:` (not `md:`)
 
 ## Behaviour
@@ -80,7 +103,7 @@ Apply every rule below. These come directly from `.github/copilot-instructions.m
 1. Understand the task fully before touching any files.
 2. Identify all files that need to be created or modified.
 3. Implement the change, applying every convention above.
-4. Do not run `yarn lint`, `npx tsc`, `yarn build`, or any test command.
+4. Do not run `pnpm lint`, `npx tsc`, `pnpm build`, or any test command.
 5. When done, explicitly hand off: **"Coding complete — hand off to lint agent."**
 6. Do not summarize a diff or present a list of changes — just make the changes.
 
