@@ -6,7 +6,9 @@ export {
   getHomePageContent,
   getNavigationMenu,
   getPricingPageContent,
+  getPrivacyPageContent,
   getSiteConfig,
+  getTermsPageContent,
 } from "@/lib/cms/client";
 
 export { defaultContent } from "@/lib/cms/default-content";
@@ -19,7 +21,10 @@ export type {
   HeroSectionContent,
   HomePageContent,
   NavigationMenuContent,
+  PolicyItemContent,
   PricingPageContent,
+  PrivacyPageContent,
   SiteConfigContent,
   StepsSectionContent,
+  TermsPageContent,
 } from "@/lib/cms/types";

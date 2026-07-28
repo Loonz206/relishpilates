@@ -243,6 +243,192 @@
           ]
         }
       }
+    },
+    {
+      "id": "privacy-item-1",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Information We Collect" },
+        "body": {
+          "en-US": "We collect information you provide directly to us, such as when you book a session or fill out our contact form. This includes your name, email address, and any fitness information relevant to your Pilates sessions."
+        }
+      }
+    },
+    {
+      "id": "privacy-item-2",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "How We Use Your Information" },
+        "body": {
+          "en-US": "We use your information to provide and improve our services, communicate with you about your sessions, and send you updates about new offerings. We never share your personal information with third parties without your consent."
+        }
+      }
+    },
+    {
+      "id": "privacy-item-3",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Data Security" },
+        "body": {
+          "en-US": "We take data security seriously and implement appropriate technical and organizational measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction."
+        }
+      }
+    },
+    {
+      "id": "privacy-item-4",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Your Rights" },
+        "body": {
+          "en-US": "You have the right to access, correct, or delete your personal information at any time. If you have questions about how we handle your data, please contact us at our email or phone number listed on our website."
+        }
+      }
+    },
+    {
+      "id": "privacy-item-5",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Cookies and Tracking" },
+        "body": {
+          "en-US": "Our website may use cookies to improve your user experience. These are small files stored on your device that help us understand how you interact with our site. You can disable cookies in your browser settings if you prefer."
+        }
+      }
+    },
+    {
+      "id": "privacy-item-6",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Changes to This Policy" },
+        "body": {
+          "en-US": "We may update this privacy policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any material changes by posting the updated policy on our website."
+        }
+      }
+    },
+    {
+      "id": "privacy-page-1",
+      "content_type": "privacyPage",
+      "fields": {
+        "metadataTitle": { "en-US": "Privacy Policy | Relish Pilates" },
+        "metadataDescription": {
+          "en-US": "Relish Pilates privacy policy and data protection information."
+        },
+        "heading": { "en-US": "Privacy Policy" },
+        "items": { "en-US": [] },
+        "itemRefs": {
+          "en-US": [
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-1" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-2" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-3" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-4" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-5" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "privacy-item-6" } } }
+          ]
+        }
+      }
+    },
+    {
+      "id": "terms-item-1",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Acceptance of Terms" },
+        "body": {
+          "en-US": "By booking a session or using our website, you agree to these terms and conditions. If you do not agree with any part of these terms, you may not use our services."
+        }
+      }
+    },
+    {
+      "id": "terms-item-2",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Session Cancellation & Rescheduling" },
+        "body": {
+          "en-US": "You may reschedule or cancel your session with at least 24 hours notice. Cancellations made less than 24 hours before your scheduled session may result in forfeiture of that session. No refunds are provided for cancellations outside the rescheduling window."
+        }
+      }
+    },
+    {
+      "id": "terms-item-3",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Session Packages" },
+        "body": {
+          "en-US": "Session packages expire 6 months from the purchase date. Unused sessions after the expiration date will be forfeited. Session pricing does not include applicable taxes. All prices are subject to change without notice."
+        }
+      }
+    },
+    {
+      "id": "terms-item-4",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Assumption of Risk" },
+        "body": {
+          "en-US": "Pilates is a physical activity. You acknowledge that participating in our sessions involves inherent risks. You assume all risks associated with your participation and agree to release Relish Pilates from any liability for injuries or damages."
+        }
+      }
+    },
+    {
+      "id": "terms-item-5",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Medical Consultation" },
+        "body": {
+          "en-US": "Before starting any new exercise program, including Pilates, consult with a healthcare professional if you have any pre-existing medical conditions, injuries, or concerns. Relish Pilates is not a substitute for medical advice."
+        }
+      }
+    },
+    {
+      "id": "terms-item-6",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Liability Limitation" },
+        "body": {
+          "en-US": "Relish Pilates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services. Our liability is limited to the amount you paid for your sessions."
+        }
+      }
+    },
+    {
+      "id": "terms-item-7",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "User Conduct" },
+        "body": {
+          "en-US": "You agree to use our services in compliance with all applicable laws and regulations. You will not engage in any conduct that is harmful, threatening, abusive, or otherwise violates the rights of others."
+        }
+      }
+    },
+    {
+      "id": "terms-item-8",
+      "content_type": "policyItem",
+      "fields": {
+        "title": { "en-US": "Changes to Terms" },
+        "body": {
+          "en-US": "We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to our website. Your continued use of our services constitutes acceptance of any modifications."
+        }
+      }
+    },
+    {
+      "id": "terms-page-1",
+      "content_type": "termsPage",
+      "fields": {
+        "metadataTitle": { "en-US": "Terms of Service | Relish Pilates" },
+        "metadataDescription": {
+          "en-US": "Relish Pilates terms of service and conditions for using our platform."
+        },
+        "heading": { "en-US": "Terms of Service" },
+        "items": { "en-US": [] },
+        "itemRefs": {
+          "en-US": [
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-1" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-2" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-3" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-4" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-5" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-6" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-7" } } },
+            { "en-US": { "sys": { "type": "Link", "linkType": "Entry", "id": "terms-item-8" } } }
+          ]
+        }
+      }
     }
   ]
 }

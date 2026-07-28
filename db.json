@@ -197,5 +197,75 @@
         }
       }
     ]
+  },
+  "privacyPage": {
+    "metadataTitle": "Privacy Policy | Relish Pilates",
+    "metadataDescription": "Relish Pilates privacy policy and data protection information.",
+    "heading": "Privacy Policy",
+    "items": [
+      {
+        "title": "Information We Collect",
+        "body": "We collect information you provide directly to us, such as when you book a session or fill out our contact form. This includes your name, email address, and any fitness information relevant to your Pilates sessions."
+      },
+      {
+        "title": "How We Use Your Information",
+        "body": "We use your information to provide and improve our services, communicate with you about your sessions, and send you updates about new offerings. We never share your personal information with third parties without your consent."
+      },
+      {
+        "title": "Data Security",
+        "body": "We take data security seriously and implement appropriate technical and organizational measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction."
+      },
+      {
+        "title": "Your Rights",
+        "body": "You have the right to access, correct, or delete your personal information at any time. If you have questions about how we handle your data, please contact us at our email or phone number listed on our website."
+      },
+      {
+        "title": "Cookies and Tracking",
+        "body": "Our website may use cookies to improve your user experience. These are small files stored on your device that help us understand how you interact with our site. You can disable cookies in your browser settings if you prefer."
+      },
+      {
+        "title": "Changes to This Policy",
+        "body": "We may update this privacy policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any material changes by posting the updated policy on our website."
+      }
+    ]
+  },
+  "termsPage": {
+    "metadataTitle": "Terms of Service | Relish Pilates",
+    "metadataDescription": "Relish Pilates terms of service and conditions for using our platform.",
+    "heading": "Terms of Service",
+    "items": [
+      {
+        "title": "Acceptance of Terms",
+        "body": "By booking a session or using our website, you agree to these terms and conditions. If you do not agree with any part of these terms, you may not use our services."
+      },
+      {
+        "title": "Session Cancellation & Rescheduling",
+        "body": "You may reschedule or cancel your session with at least 24 hours notice. Cancellations made less than 24 hours before your scheduled session may result in forfeiture of that session. No refunds are provided for cancellations outside the rescheduling window."
+      },
+      {
+        "title": "Session Packages",
+        "body": "Session packages expire 6 months from the purchase date. Unused sessions after the expiration date will be forfeited. Session pricing does not include applicable taxes. All prices are subject to change without notice."
+      },
+      {
+        "title": "Assumption of Risk",
+        "body": "Pilates is a physical activity. You acknowledge that participating in our sessions involves inherent risks. You assume all risks associated with your participation and agree to release Relish Pilates from any liability for injuries or damages."
+      },
+      {
+        "title": "Medical Consultation",
+        "body": "Before starting any new exercise program, including Pilates, consult with a healthcare professional if you have any pre-existing medical conditions, injuries, or concerns. Relish Pilates is not a substitute for medical advice."
+      },
+      {
+        "title": "Liability Limitation",
+        "body": "Relish Pilates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our services. Our liability is limited to the amount you paid for your sessions."
+      },
+      {
+        "title": "User Conduct",
+        "body": "You agree to use our services in compliance with all applicable laws and regulations. You will not engage in any conduct that is harmful, threatening, abusive, or otherwise violates the rights of others."
+      },
+      {
+        "title": "Changes to Terms",
+        "body": "We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting to our website. Your continued use of our services constitutes acceptance of any modifications."
+      }
+    ]
   }
 }

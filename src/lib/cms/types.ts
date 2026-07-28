@@ -86,6 +86,25 @@ export interface FaqPageContent {
   items: FaqItemContent[];
 }
 
+export interface PolicyItemContent {
+  title: string;
+  body: string;
+}
+
+export interface PrivacyPageContent {
+  metadataTitle: string;
+  metadataDescription: string;
+  heading: string;
+  items: PolicyItemContent[];
+}
+
+export interface TermsPageContent {
+  metadataTitle: string;
+  metadataDescription: string;
+  heading: string;
+  items: PolicyItemContent[];
+}
+
 export interface PricingPackageContent {
   name: string;
   price: string;
@@ -112,4 +131,6 @@ export interface ContentContract {
   homePage: HomePageContent;
   faqPage: FaqPageContent;
   pricingPage: PricingPageContent;
+  privacyPage: PrivacyPageContent;
+  termsPage: TermsPageContent;
 }
