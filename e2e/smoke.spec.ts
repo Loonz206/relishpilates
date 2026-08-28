@@ -1,6 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 
 const cmsRevalidateSecret = process.env.CMS_REVALIDATE_SECRET ?? "";
+
+// `waitForLoadState("networkidle")` is unreliable with Next.js production builds
+// because the browser keeps HTTP keep-alive connections open, so "networkidle"
+// never settles and the wait times out. Instead, wait for the document to fully
+// load, then give the JS a short moment to run so any uncaught runtime errors
+// surface before the assertion.
+async function settlePage(page: Page) {
+  await page.waitForLoadState("load");
+  await page.waitForTimeout(1000);
+}
 
 test.describe("Smoke — Homepage", () => {
   test.beforeEach(async ({ page }) => {
@@ -49,7 +59,7 @@ test.describe("Smoke — Homepage", () => {
     const errors: string[] = [];
     page.on("pageerror", (err) => errors.push(err.message));
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await settlePage(page);
     expect(errors).toHaveLength(0);
   });
 
@@ -86,7 +96,7 @@ test.describe("Routes — FAQ Page", () => {
   test("no uncaught errors on FAQ page", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (err) => errors.push(err.message));
-    await page.waitForLoadState("networkidle");
+    await settlePage(page);
     expect(errors).toHaveLength(0);
   });
 });
@@ -121,7 +131,7 @@ test.describe("Routes — Pricing Page", () => {
   test("no uncaught errors on pricing page", async ({ page }) => {
     const errors: string[] = [];
     page.on("pageerror", (err) => errors.push(err.message));
-    await page.waitForLoadState("networkidle");
+    await settlePage(page);
     expect(errors).toHaveLength(0);
   });
 });
@@ -148,7 +158,7 @@ test.describe("Routes — Legal Pages", () => {
       const errors: string[] = [];
       page.on("pageerror", (err) => errors.push(err.message));
       await page.goto(path);
-      await page.waitForLoadState("networkidle");
+      await settlePage(page);
       expect(errors).toHaveLength(0);
     }
   });

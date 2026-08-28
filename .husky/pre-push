@@ -1,2 +1,2 @@
-yarn test:ci
-yarn typecheck
+pnpm test:ci
+pnpm typecheck

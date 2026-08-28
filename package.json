@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=20.9.0"
   },
+  "packageManager": "pnpm@10.15.0",
   "scripts": {
     "dev": "CMS_PROVIDER=local-api CMS_LOCAL_BASE_URL=http://localhost:3001 concurrently -k \"pnpm dev:web\" \"pnpm mock-server:dev\"",
     "dev:web": "next dev",
@@ -67,6 +68,13 @@
     ],
     "*.{json,css,scss,md,yml,yaml,html}": [
       "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "@parcel/watcher",
+      "unrs-resolver"
     ]
   }
 }
