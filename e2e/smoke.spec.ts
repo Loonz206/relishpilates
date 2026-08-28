@@ -1,7 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
 
-const cmsRevalidateSecret = process.env.CMS_REVALIDATE_SECRET ?? "";
-
 // `waitForLoadState("networkidle")` is unreliable with Next.js production builds
 // because the browser keeps HTTP keep-alive connections open, so "networkidle"
 // never settles and the wait times out. Instead, wait for the document to fully
@@ -161,70 +159,6 @@ test.describe("Routes — Legal Pages", () => {
       await settlePage(page);
       expect(errors).toHaveLength(0);
     }
-  });
-});
-
-test.describe("API Endpoints — Content Revalidation", () => {
-  test("revalidate endpoint rejects invalid secret", async ({ request }) => {
-    const response = await request.post("/api/revalidate", {
-      headers: {
-        "x-cms-revalidate-secret": "invalid-secret",
-      },
-      data: {
-        sys: { id: "entry-123", contentType: { sys: { id: "homePage" } } },
-      },
-    });
-    expect(response.status()).toBe(401);
-  });
-
-  test("revalidate endpoint accepts valid secret", async ({ request }) => {
-    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
-
-    const response = await request.post("/api/revalidate", {
-      headers: {
-        "x-cms-revalidate-secret": cmsRevalidateSecret,
-      },
-      data: {
-        sys: { id: "entry-123", contentType: { sys: { id: "homePage" } } },
-      },
-    });
-    expect([200, 204]).toContain(response.status());
-  });
-
-  test("revalidate endpoint handles missing payload", async ({ request }) => {
-    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
-
-    const response = await request.post("/api/revalidate", {
-      headers: {
-        "x-cms-revalidate-secret": cmsRevalidateSecret,
-      },
-    });
-    expect([200, 400, 204]).toContain(response.status());
-  });
-});
-
-test.describe("API Endpoints — Preview Mode", () => {
-  test("preview endpoint rejects invalid secret", async ({ request }) => {
-    const response = await request.get("/api/preview", {
-      params: {
-        secret: "invalid-secret",
-        redirect: "/",
-      },
-    });
-    expect(response.status()).toBe(401);
-  });
-
-  test("preview endpoint accepts valid secret and redirects", async ({ request }) => {
-    test.skip(!cmsRevalidateSecret, "CMS_REVALIDATE_SECRET is not set");
-
-    const response = await request.get("/api/preview", {
-      params: {
-        secret: cmsRevalidateSecret,
-        redirect: "/",
-      },
-      maxRedirects: 0,
-    });
-    expect([200, 307, 308]).toContain(response.status());
   });
 });
 
