@@ -63,9 +63,9 @@ All defined in `globals.css` as `--color-*` and usable as Tailwind utilities:
 ## Build & Dev
 
 ```bash
-yarn dev       # start dev server
-yarn build     # production build
-yarn lint      # ESLint
+pnpm dev       # start dev server
+pnpm build     # production build
+pnpm lint      # ESLint
 npx tsc --noEmit  # type-check without emitting
 ```
 

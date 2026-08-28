@@ -33,21 +33,21 @@ Collect failure signals from any or all of:
 - Jest test failures and retry count
 - Playwright failures and retry count
 - Accessibility issues found and retries consumed
-- `yarn build` static generation errors
+- `pnpm build` static generation errors
 - Agent retry exhaustion
 
 **Category taxonomy for this project:**
 
-| Prefix | Covers |
-|--------|--------|
-| `lint:` | ESLint rule violations (e.g. `lint:no-explicit-any`, `lint:react-hooks`) |
-| `tsc:` | TypeScript type errors (e.g. `tsc:no-implicit-any`, `tsc:missing-return`) |
-| `test:` | Jest / RTL failures (e.g. `test:mock-resolution`, `test:async-render`) |
-| `e2e:` | Playwright failures (e.g. `e2e:selector-stale`, `e2e:timeout`) |
-| `a11y:` | Accessibility violations (e.g. `a11y:missing-sizes`, `a11y:no-label`) |
-| `build:` | `yarn build` failures (e.g. `build:static-gen`, `build:missing-metadata`) |
+| Prefix    | Covers                                                                          |
+| --------- | ------------------------------------------------------------------------------- |
+| `lint:`   | ESLint rule violations (e.g. `lint:no-explicit-any`, `lint:react-hooks`)        |
+| `tsc:`    | TypeScript type errors (e.g. `tsc:no-implicit-any`, `tsc:missing-return`)       |
+| `test:`   | Jest / RTL failures (e.g. `test:mock-resolution`, `test:async-render`)          |
+| `e2e:`    | Playwright failures (e.g. `e2e:selector-stale`, `e2e:timeout`)                  |
+| `a11y:`   | Accessibility violations (e.g. `a11y:missing-sizes`, `a11y:no-label`)           |
+| `build:`  | `pnpm build` failures (e.g. `build:static-gen`, `build:missing-metadata`)       |
 | `design:` | Brand/convention mismatches (e.g. `design:wrong-font`, `design:transition-all`) |
-| `debug:` | Runtime errors (e.g. `debug:hydration`, `debug:rsc-boundary`) |
+| `debug:`  | Runtime errors (e.g. `debug:hydration`, `debug:rsc-boundary`)                   |
 
 For each failure signal, determine:
 
@@ -73,6 +73,7 @@ After updating counts, scan the Failure Log for any row where `Count ≥ 3` and 
 For each qualifying row:
 
 1. Derive a generalized, actionable rule from the failure pattern. The rule must be:
+
    - Applicable **before** the task starts (a pre-condition check or a known-safe pattern to follow)
    - Concise (one sentence)
    - Specific enough to prevent the failure, broad enough to apply to similar cases
@@ -80,6 +81,7 @@ For each qualifying row:
 2. Assign an ID using the next available `L00N` sequence (e.g. `L001`, `L002`…).
 
 3. Append the rule to the Active Rules table:
+
    - `ID`: `L00N`
    - `Category`: the failure category
    - `Rule`: the actionable rule sentence

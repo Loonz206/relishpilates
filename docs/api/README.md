@@ -5,7 +5,7 @@ This project includes a Phase 1 content contract backed by `json-server`.
 ## Start the local API
 
 ```bash
-yarn mock-server:dev
+pnpm mock-server:dev
 ```
 
 The API runs on `http://localhost:3001`.
@@ -15,7 +15,7 @@ The API runs on `http://localhost:3001`.
 From the project root:
 
 ```bash
-yarn content:health
+pnpm content:health
 ```
 
 Direct curl alternative:
@@ -27,7 +27,7 @@ curl -sf http://localhost:3001/siteConfig
 To run the Next.js app and the local API together:
 
 ```bash
-yarn dev:content
+pnpm dev:content
 ```
 
 ## Environment variables

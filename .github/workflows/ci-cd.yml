@@ -48,34 +48,37 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       # Gate 1 — TypeScript strict type-check
       - name: Type check (tsc --noEmit)
-        run: npx tsc --noEmit
+        run: pnpm typecheck
 
       # Gate 2 — ESLint
       - name: Lint (eslint src/)
-        run: yarn lint
+        run: pnpm lint
 
       # Gate 3 — Jest unit tests with coverage threshold enforcement
       # jest.config.ts sets coverageThreshold: { global: { branches/functions/lines/statements: 80 } }
       # Jest exits non-zero if any metric drops below threshold — the job fails automatically.
       - name: Unit tests with coverage (≥80% threshold)
-        run: yarn test:coverage
+        run: pnpm test:coverage
 
   # ───────────────────────────────────────────────────────────────────────────
   # Job 2: End-to-End Tests
   # Runs after quality gates pass. Builds the production Next.js bundle and
   # runs Playwright against it. CI=true → 2 retries, 1 worker (playwright.config.ts).
-  # playwright.config.ts webServer.command is "yarn start" in CI, so next build
+  # playwright.config.ts webServer.command is "pnpm start" in CI, so next build
   # must complete first (see "Build production bundle" step).
   # ───────────────────────────────────────────────────────────────────────────
   e2e:
@@ -86,26 +89,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers (Chromium only)
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium
 
-      # Build the production bundle so `yarn start` (next start) works.
+      # Build the production bundle so `pnpm start` (next start) works.
       - name: Build production bundle
-        run: yarn build
+        run: pnpm build
 
       # Gate 4 — Playwright E2E suite
-      # playwright.config.ts starts the server with "yarn start" when CI=true.
+      # playwright.config.ts starts the server with "pnpm start" when CI=true.
       - name: Run E2E tests
-        run: yarn test:e2e
+        run: pnpm test:e2e
         env:
           CI: "true"
 
@@ -146,14 +152,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "yarn"
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       # ─── 🔑 Future environment variables ───────────────────────────────────
       # When you add API keys, analytics tokens, etc., inject them here.

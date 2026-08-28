@@ -2,11 +2,15 @@
   "name": "relish-pilates",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22"
+  },
+  "packageManager": "pnpm@10.34.5+sha512.a4ee05f2f73658255bd6a89859c065a45c28a57daefae2c893a168ee2b73168c37b91e83e57ea67654ad03f03031746430e8bce38e362e042605fb8abc80192e",
   "scripts": {
-    "dev": "CMS_PROVIDER=local-api CMS_LOCAL_BASE_URL=http://localhost:3001 concurrently -k \"yarn dev:web\" \"yarn mock-server:dev\"",
+    "dev": "CMS_PROVIDER=local-api CMS_LOCAL_BASE_URL=http://localhost:3001 concurrently -k \"pnpm dev:web\" \"pnpm mock-server:dev\"",
     "dev:web": "next dev",
-    "dev:content": "CMS_PROVIDER=local-api CMS_LOCAL_BASE_URL=http://localhost:3001 concurrently -k \"yarn dev:web\" \"yarn mock-server:dev\"",
-    "dev:contentful-mock": "CMS_PROVIDER=contentful-delivery CONTENTFUL_MOCK_BASE_URL=http://localhost:3002 concurrently -k \"yarn dev:web\" \"yarn mock-server:contentful\"",
+    "dev:content": "CMS_PROVIDER=local-api CMS_LOCAL_BASE_URL=http://localhost:3001 concurrently -k \"pnpm dev:web\" \"pnpm mock-server:dev\"",
+    "dev:contentful-mock": "CMS_PROVIDER=contentful-delivery CONTENTFUL_MOCK_BASE_URL=http://localhost:3002 concurrently -k \"pnpm dev:web\" \"pnpm mock-server:contentful\"",
     "content:health": "curl -sf http://localhost:3001/siteConfig | head -c 180 && echo",
     "build": "next build",
     "start": "next start",
@@ -14,7 +18,7 @@
     "lint:fix": "eslint src/ --fix",
     "mock-server": "json-server --watch db.json --port 3001",
     "mock-server:contentful": "json-server --watch db.contentful-mock.json --port 3002",
-    "mock-server:dev": "nodemon --watch db.json --ext json --exec \"yarn mock-server\"",
+    "mock-server:dev": "nodemon --watch db.json --ext json --exec \"pnpm mock-server\"",
     "contentful:provision-models": "node scripts/contentful/provision-models.mjs",
     "contentful:seed-content": "node scripts/contentful/seed-content.mjs",
     "typecheck": "tsc --noEmit",
@@ -64,6 +68,13 @@
     ],
     "*.{json,css,scss,md,yml,yaml,html}": [
       "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp",
+      "@parcel/watcher",
+      "unrs-resolver"
     ]
   }
 }

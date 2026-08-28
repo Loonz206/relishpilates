@@ -1,8 +1,20 @@
 ---
 name: debug
-description: Runtime debugging agent for the Relish Pilates Next.js App Router project. Diagnoses hydration mismatches, RSC/Client Component boundary errors, next/image regressions, next/font/local failures, Tailwind v4 class resolution issues, and yarn build static-generation failures. No browser MCP required. Invoke with /agent debug or --agent debug.
+description: Runtime debugging agent for the Relish Pilates Next.js App Router project. Diagnoses hydration mismatches, RSC/Client Component boundary errors, next/image regressions, next/font/local failures, Tailwind v4 class resolution issues, and pnpm build static-generation failures. No browser MCP required. Invoke with /agent debug or --agent debug.
 argument-hint: Describe the bug — route, expected behavior, actual behavior, and any console output or build error message
-tools: [execute/runInTerminal, execute/getTerminalOutput, read/readFile, read/problems, read/viewImage, search/codebase, search/fileSearch, search/textSearch, search/listDirectory, edit/editFiles]
+tools:
+  [
+    execute/runInTerminal,
+    execute/getTerminalOutput,
+    read/readFile,
+    read/problems,
+    read/viewImage,
+    search/codebase,
+    search/fileSearch,
+    search/textSearch,
+    search/listDirectory,
+    edit/editFiles,
+  ]
 ---
 
 # Debug Agent
@@ -22,7 +34,7 @@ This agent handles:
 - **`next/image` regressions** — missing `sizes` prop on fill images, incorrect `alt`, layout shift, unoptimized images
 - **`next/font/local` failures** — TT Ramillas not loading, `--font-tt-ramillas` CSS variable missing, wrong `variable` name in className
 - **Tailwind v4 class resolution** — classes not applying because they use an unknown utility, a dynamic class string not recognized by the scanner, or a `@theme inline` token mismatch
-- **`yarn build` failures** — static generation errors, missing metadata, invalid `generateStaticParams`, export errors
+- **`pnpm build` failures** — static generation errors, missing metadata, invalid `generateStaticParams`, export errors
 
 ## Out of Scope
 
@@ -32,8 +44,8 @@ This agent handles:
 
 ## Workflow
 
-1. **Reproduce** — identify the smallest reliable path to trigger the issue (route, action, viewport, `yarn dev` vs `yarn build`).
-2. **Gather evidence** — read terminal output, `yarn dev` console errors, `yarn build` static generation errors, or the component source.
+1. **Reproduce** — identify the smallest reliable path to trigger the issue (route, action, viewport, `pnpm dev` vs `pnpm build`).
+2. **Gather evidence** — read terminal output, `pnpm dev` console errors, `pnpm build` static generation errors, or the component source.
 3. **Map symptoms to cause** — identify the affected file(s) and the precise root cause.
 4. **Fix** — apply the smallest safe change. Prefer fixing source over suppressing errors.
 5. **Verify** — re-run the reproduction path. Confirm the original issue is gone and no new errors were introduced.
@@ -42,34 +54,37 @@ This agent handles:
 ### Tool Preference (no browser MCP available)
 
 1. Read relevant source files to understand the current state.
-2. Run `yarn dev` and capture console output for runtime errors.
-3. Run `yarn build` to catch static generation and export errors.
+2. Run `pnpm dev` and capture console output for runtime errors.
+3. Run `pnpm build` to catch static generation and export errors.
 4. Run `npx tsc --noEmit` to narrow type-related crashes.
-5. Run `yarn lint` if a lint rule is suspected.
+5. Run `pnpm lint` if a lint rule is suspected.
 
 ## Common Patterns in This Stack
 
 ### RSC Boundary
+
 ```tsx
 // Wrong — hook in Server Component
 export default function MySection() {
-  const [open, setOpen] = useState(false) // error
+  const [open, setOpen] = useState(false); // error
 }
 
 // Fix — add "use client" at top of file, or extract to a client sub-component
-"use client"
+("use client");
 ```
 
 ### Tailwind v4 Dynamic Class
+
 ```tsx
 // Wrong — scanner can't see runtime-constructed class names
-const color = `bg-${brandColor}` // class not included in output
+const color = `bg-${brandColor}`; // class not included in output
 
 // Fix — use complete class names in source or safeList in config
-const color = brandColor === "lime" ? "bg-lime" : "bg-relish-main"
+const color = brandColor === "lime" ? "bg-lime" : "bg-relish-main";
 ```
 
 ### next/font/local Variable
+
 ```tsx
 // layout.tsx must apply the variable to <body>
 <body className={`${ttRamillas.variable} ${nunitoSans.variable}`}>
