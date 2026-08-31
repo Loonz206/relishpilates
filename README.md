@@ -1,5 +1,13 @@
 # Relish Pilates
 
+![CI](https://github.com/Loonz206/relishpilates/actions/workflows/ci-cd.yml/badge.svg)
+[![Coverage](https://img.shields.io/badge/coverage-see%20actions-blue)](https://github.com/Loonz206/relishpilates/actions)
+![Commitizen](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)
+![Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)
+![Next.js](https://img.shields.io/badge/Next.js-000?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-%234a4a4a?logo=pnpm&logoColor=red)
+
 ## Local Development
 
 The natural local development step is a single command:
